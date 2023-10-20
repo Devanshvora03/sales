@@ -86,3 +86,13 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+
+class Expense(forms.ModelForm):
+    amount = forms.IntegerField()
+    expense_detail = forms.CharField(max_length=100,
+                        required=True,
+                        widget=forms.TextInput(attrs={'class': 'form-control'}))
+    
+    class Meta:
+        model = 
