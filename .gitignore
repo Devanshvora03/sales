@@ -9,3 +9,13 @@ db.sqlite3
 venv/
 
 .idea/
+env/
+env/*
+users/migrations/* 
+*/migrations/*
+*/__pycache__/*
+users/__pycache__/*
+*/__pycache__/*.pyc
+__pycache__/*
+users/migrations/
+users/migrations/*

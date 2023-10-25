@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from .models import * 
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
@@ -85,15 +86,26 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 def profile(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        profile_instance = Profile.objects.get(user=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=profile_instance)
+
+        
 
         if user_form.is_valid() and profile_form.is_valid():
+            print(user_form , '=== user form ===')
+            print(profile_form , '=== profile form ===')
             user_form.save()
             profile_form.save()
+
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
+        elif user_form.is_valid():
+            print(user_form , " === user form === ")
+        elif profile_form.is_valid():
+            print(profile_form , "=== profile form ===")
     else:
         user_form = UpdateUserForm(instance=request.user)
-        profile_form = UpdateProfileForm(instance=request.user.profile)
+        profile_instance = Profile.objects.get(user=request.user)
+        profile_form = UpdateProfileForm(instance=profile_instance)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})

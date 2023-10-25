@@ -21,7 +21,7 @@
     {% endif %}
     <div class="d-flex p-1">
     <div class="form-content w-50">
-        <form method="post" enctype="multipart/form-data">
+        <form  id="profileForm" >
             {% csrf_token %}
             <div class="form-row">
                 <div class="col">
@@ -35,15 +35,15 @@
                             {{ user_form.email }} 
                         <label class="small mb-1">Username:</label>
                             {{ user_form.username }} 
-                            <label class="small mb-1">Phone Number:</label>
-                            <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Phone Number">
-                             
+                        <label class="small mb-1">Phone Number:</label>
+                        {{profile_form.phone}}
+                            
                         <label class="small mb-1">Address:</label>
                         <label for="exampleFormControlTextarea1"></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Address"></textarea>
+                        {{profile_form.address}}
                                     </div>
                                 </div>
-</div>
+                            </div>
                     <div class="form-group m-2">
                         <a href="{% url 'password_change' %}">Change Password</a>
                     </div>
@@ -72,4 +72,23 @@
             <button type="reset" class="btn btn-dark btn-lg">Reset</button>
         </form>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+ $('#profileForm').on('submit' , function(e){
+    e.preventDefault();
+    data =  $('#profileForm').serialize()
+    console.log(data);
+    $.ajax({
+        method : "post",
+        url : "{% url 'users-profile' %}",
+        data : data,
+        success : function(data){
+            console.log(data);
+            alert("data updated succesfully")
+            location.reload()
+        },
+    })
+ })
+</script>
 {% endblock content %}
