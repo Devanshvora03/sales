@@ -92,4 +92,4 @@ class UpdateProfileForm(forms.ModelForm):
     address = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     class Meta:
         model = Profile
-        fields = ['avatar', 'bio']
+        fields = ['avatar', 'bio','phone','address']
