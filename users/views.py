@@ -12,6 +12,8 @@ from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
 def home(request):
     return render(request, 'users/home.html')
 
+def expense(request):
+    return render(request, 'users/expense.html')
 
 class RegisterView(View):
     form_class = RegisterForm
