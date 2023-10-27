@@ -9,7 +9,6 @@ from .models import *
 
 from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
-
 def home(request):
     return render(request, 'users/home.html')
 
@@ -89,8 +88,6 @@ def profile(request):
         profile_instance = Profile.objects.get(user=request.user)
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=profile_instance)
 
-        
-
         if user_form.is_valid() and profile_form.is_valid():
             print(user_form , '=== user form ===')
             print(profile_form , '=== profile form ===')
@@ -106,6 +103,8 @@ def profile(request):
     else:
         user_form = UpdateUserForm(instance=request.user)
         profile_instance = Profile.objects.get(user=request.user)
+        print ('=== Profile Instance ===' , profile_instance.phone )
+        print ('=== User Instance ===' , request.user)
         profile_form = UpdateProfileForm(instance=profile_instance)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
