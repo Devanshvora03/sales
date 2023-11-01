@@ -6,22 +6,16 @@ from PIL import Image
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True, null=True)
     bio = models.TextField()
     phone = models.CharField(max_length = 12, blank=True, null=True)
     address = models.CharField(max_length = 100, blank=True, null=True)
 
     def __str__(self):
         return self.user.username
-    
 
-    # resizing images
-    def save(self, *args, **kwargs):
-        super().save()
-
-        img = Image.open(self.avatar.path)
-
-        if img.height > 100 or img.width > 100:
-            new_img = (100, 100)
-            img.thumbnail(new_img)
-            img.save(self.avatar.path)
+class Expense(models.Model):
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    amount = models.CharField(max_length=10)
+    currency = models.CharField(max_length=10, default="INR")
+    amount_details = models.TextField(blank=True, null=True)

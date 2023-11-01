@@ -1,0 +1,95 @@
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+
+<div class = "main">
+    
+    {% comment %} <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+    </div> {% endcomment %}
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="d-flex p-1">
+    <div class="ml-4 form-content w-25 ">
+        <form  id="profileForm" >
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group m-2">
+                        
+                        <label class="small mb-0 ">First Name:</label>
+                        {{ user_form.first_name }}
+                            <label class="small mb-1">Last Name:</label>
+                            {{ user_form.last_name }}
+                            <label class="small mb-1">Email:</label>
+                            {{ user_form.email }} 
+                        <label class="small mb-1">Username:</label>
+                            {{ user_form.username }} 
+                        <label class="small mb-1">Phone Number:</label>
+                        {{profile_form.phone}}
+                            
+                        <label class="small mb-1">Address:</label>
+                        <label for="exampleFormControlTextarea1"></label>
+                        {{profile_form.address}}
+                                    </div>
+                                </div>
+                            </div>
+                    <div class="form-group m-2">
+                        <a href="{% url 'password_change' %}">Change Password</a>
+                    </div>
+                    </div>
+                    <div class= "m-4" >
+                        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+                         {% comment %} margin: 1rem 0 0 29rem {% endcomment %}
+                    </div>
+                    </div>
+                </div>
+                   
+                </div>
+                    <div class="form-row ml-4">
+                        <div class="col-m-5 ml-3">
+                            <div class="form-group m-2">                  
+                       
+                        <label class="small mb-1">Change Avatar:</label>
+                        {{ profile_form.avatar }}
+                    </div>
+                    <label class="small m-2">Bio:</label> {{ profile_form.bio }}
+                </div>
+            </div>
+        </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg ml-4">Save Changes</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+               </div>
+        </form>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+ $('#profileForm').on('submit' , function(e){
+    e.preventDefault();
+    data =  $('#profileForm').serialize()
+    console.log(data);
+    $.ajax({
+        method : "post",
+        url : "{% url 'users-profile' %}",
+        data : data,
+        success : function(data){
+            console.log(data);
+            alert("data updated succesfully")
+            {% comment %} location.reload() {% endcomment %}
+        },
+    })
+ })
+</script>
+{% endblock content %}
