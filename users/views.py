@@ -7,13 +7,11 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from .models import * 
 
-from .forms import RegisterForm, LoginForm, UpdateUserForm, UpdateProfileForm
+from .forms import *
 
 def home(request):
     return render(request, 'users/home.html')
 
-def expense(request):
-    return render(request, 'users/expense.html')
 
 class RegisterView(View):
     form_class = RegisterForm
@@ -108,3 +106,8 @@ def profile(request):
         profile_form = UpdateProfileForm(instance=profile_instance)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+def expense(request):
+    form = ExpenseForm()
+    return render(request, 'users/expense.html',{'form':form})
