@@ -19,3 +19,6 @@ class Expense(models.Model):
     amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
     amount_details = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username

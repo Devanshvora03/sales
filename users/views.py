@@ -111,3 +111,5 @@ def profile(request):
 def expense(request):
     form = ExpenseForm()
     return render(request, 'users/expense.html',{'form':form})
+
+    

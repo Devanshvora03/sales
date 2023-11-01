@@ -49,7 +49,7 @@
                     </div>
                     </div>
                     <div class= "m-4" >
-                        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+                        <img class="rounded-circle account-img" style="width:100px;height:100px" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
                          {% comment %} margin: 1rem 0 0 29rem {% endcomment %}
                     </div>
                     </div>
@@ -58,7 +58,7 @@
                 </div>
                     <div class="form-row ml-4">
                         <div class="col-m-5 ml-3">
-                            <div class="form-group m-2">                  
+                            <div class="form-group m-2" >                  
                        
                         <label class="small mb-1">Change Avatar:</label>
                         {{ profile_form.avatar }}
