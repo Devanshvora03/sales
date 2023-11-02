@@ -106,6 +106,8 @@ def profile(request):
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
 def expense(request):
+    user = request.user
+    form = ExpenseForm()
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
         if form.is_valid():
@@ -116,8 +118,7 @@ def expense(request):
                 user_id = request.user
             )
             new_expense.save()
-        else:
-            print("Not Created")
-    else :
-        form = ExpenseForm()
-    return render(request, 'users/expense.html',{'form':form})
+            messages.success(request, 'Expense added successfully.')
+            return redirect('/expense/')
+    expenses = Expense.objects.filter(user_id=user)
+    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})

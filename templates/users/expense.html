@@ -4,21 +4,32 @@
 <h1 class="p-3" >
     Add Your Expense
 </h1>
-<form method="post">
-    {% csrf_token %}
-{% for field in form %}
-    <div class = "d-flex m-4"> 
-        {{field.label}}
-        <div class="ml-3 ">
-        {{field}}
+<div>
+    <form method="post">
+        {% csrf_token %}
+    {% for field in form %}
+        <div class = "d-flex m-4"> 
+            {{field.label}}
+            <div class="ml-3 ">
+            {{field}}
+            </div>
         </div>
-    </div>
-    {% endfor %}   
-    <div class="ml-4 mt-4 ">
-        <button type ="submit" class="btn btn-primary "> 
-            Add the Expense
-        </button> 
-        {% comment %} <button type = "button" onClick="" class="btn btn-primary"> Remove</button> {% endcomment %}
-    </div>                 
-</form>                                                                                                   
+        {% endfor %}   
+        <div class="ml-4 mt-4 ">
+            <button type ="submit" class="btn btn-primary "> 
+                Add the Expense
+            </button> 
+            {% comment %} <button type = "button" onClick="" class="btn btn-primary"> Remove</button> {% endcomment %}
+        </div>                 
+    </form>    
+</div>                     
+<div>
+    <ul>
+        {% for expense in expenses %}
+            <li>{{ expense.amount_details }} - {{ expense.amount }}</li>
+        {% empty %}
+            <li>No expenses found.</li>
+        {% endfor %}
+    </ul>
+</div>                                                                          
 {% endblock %}
