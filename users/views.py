@@ -122,3 +122,6 @@ def expense(request):
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
+
+def coordinate(request):
+    return render(request, 'users/coordinate.html')
