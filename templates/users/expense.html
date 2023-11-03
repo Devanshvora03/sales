@@ -46,6 +46,17 @@
             </button> 
             {% comment %} <button type = "button" onClick="" class="btn btn-primary"> Remove</button> {% endcomment %}
         </div>                 
+    </form>    
+</div>                     
+<div>
+    <ul>
+        {% for expense in expenses %}
+            <li>{{ expense.amount }} {{expense.currency}} - {{ expense.amount_details }} - {{ expense.date }}</li>
+        {% empty %}
+            <li>No expenses found.</li>
+        {% endfor %}
+    </ul>
+</div>                                                                          
                           
 
    
