@@ -6,10 +6,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from .models import * 
+
 from .forms import *
 
 def home(request):
     return render(request, 'users/home.html')
+
 
 class RegisterView(View):
     form_class = RegisterForm
@@ -105,20 +107,9 @@ def profile(request):
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
 def expense(request):
-    user = request.user
     form = ExpenseForm()
-    if request.method == 'POST':
-        form = ExpenseForm(request.POST)
-        if form.is_valid():
-            new_expense = Expense.objects.create(
-                amount = form.cleaned_data.get('amount'),
-                currency = form.cleaned_data.get('currency'),
-                amount_details = form.cleaned_data.get('amount_details'),
-                user_id = request.user
-            )
-            new_expense.save()
-            messages.success(request, 'Expense added successfully.')
-            return redirect('/expense/')
-    expenses = Expense.objects.filter(user_id=user)
-    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
+    return render(request, 'users/expense.html',{'form':form})
+
+    

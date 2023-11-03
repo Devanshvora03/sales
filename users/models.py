@@ -6,7 +6,7 @@ from PIL import Image
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True)
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images', blank=True, null=True)
     bio = models.TextField()
     phone = models.CharField(max_length = 12, blank=True, null=True)
     address = models.CharField(max_length = 100, blank=True, null=True)
@@ -21,4 +21,4 @@ class Expense(models.Model):
     amount_details = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.user_id.username
+        return self.user.username
