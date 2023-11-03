@@ -1,20 +1,46 @@
 {% extends "users/base.html" %}
 {% block content %}
-<div class = "p-3"></div>
+
 <h1 class="p-3" >
     Add Your Expense
 </h1>
-<div>
-    <form method="post">
+<div class= "d-flex flex-row">
+    <form  method="post">
+        <div class="">
         {% csrf_token %}
-    {% for field in form %}
-        <div class = "d-flex m-4"> 
+        {% for field in form %}
+        <div class = "d-flex m-4 "> 
             {{field.label}}
             <div class="ml-3 ">
             {{field}}
             </div>
         </div>
-        {% endfor %}   
+        {% endfor %}
+    
+    </form>   
+    </div>
+        <div class="d-flex ">
+            <ul>
+                <div class="jumbotron">
+                    {% for expense in expenses %}
+                    <li class="list-unstyled">{{ expense.amount_details }} - {{ expense.amount }}, {{ expense.date }}</li>
+                {% empty %}
+                    <li class="list-unstyled">No expenses found.</li>
+                {% endfor %}
+                    {% comment %} <h1 class="display-4">Hello, world!</h1>
+                    <p class="lead"></p>
+                    <hr class="my-4">
+                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+                    <p class="lead">
+                      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    </p> {% endcomment %}
+                  </div>
+               
+            </ul>
+       
+        </div> 
+    </div>
+
         <div class="ml-4 mt-4 ">
             <button type ="submit" class="btn btn-primary "> 
                 Add the Expense
@@ -23,13 +49,9 @@
         </div>                 
     </form>    
 </div>                     
-<div>
-    <ul>
-        {% for expense in expenses %}
-            <li>{{ expense.amount }} {{expense.currency}} - {{ expense.amount_details }} - {{ expense.date }}</li>
-        {% empty %}
-            <li>No expenses found.</li>
-        {% endfor %}
-    </ul>
-</div>                                                                          
+                                                                          
+                          
+
+   
+                                                                        
 {% endblock %}
