@@ -22,19 +22,20 @@
         <div class="d-flex ">
             <ul>
                 <div class="jumbotron">
-                    <h1 class="display-4">Hello, world!</h1>
+                    {% for expense in expenses %}
+                    <li class="list-unstyled">{{ expense.amount_details }} - {{ expense.amount }}, {{ expense.date }}</li>
+                {% empty %}
+                    <li class="list-unstyled">No expenses found.</li>
+                {% endfor %}
+                    {% comment %} <h1 class="display-4">Hello, world!</h1>
                     <p class="lead"></p>
                     <hr class="my-4">
                     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
                     <p class="lead">
                       <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                    </p>
+                    </p> {% endcomment %}
                   </div>
-                {% for expense in expenses %}
-                    <li class="list-unstyled">{{ expense.amount_details }} - {{ expense.amount }}</li>
-                {% empty %}
-                    <li class="list-unstyled">No expenses found.</li>
-                {% endfor %}
+               
             </ul>
        
         </div> 
@@ -48,15 +49,7 @@
         </div>                 
     </form>    
 </div>                     
-<div>
-    <ul>
-        {% for expense in expenses %}
-            <li>{{ expense.amount }} {{expense.currency}} - {{ expense.amount_details }} - {{ expense.date }}</li>
-        {% empty %}
-            <li>No expenses found.</li>
-        {% endfor %}
-    </ul>
-</div>                                                                          
+                                                                          
                           
 
    
