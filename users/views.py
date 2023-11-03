@@ -6,6 +6,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from .models import * 
+from django.views.generic import ListView
 
 from .forms import *
 
@@ -112,4 +113,4 @@ def expense(request):
     form = ExpenseForm()
     return render(request, 'users/expense.html',{'form':form})
 
-    
+
