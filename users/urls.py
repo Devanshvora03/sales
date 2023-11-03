@@ -6,5 +6,5 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name='users-register'),
     path('profile/', profile, name='users-profile'),
     path('expense/', expense, name='expense'),
-    #path('coordinate/', coordinate, name='coordinate'),
+    path('coordinate/', coordinate, name='coordinate'),
 ]
