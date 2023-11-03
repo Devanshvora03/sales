@@ -16,42 +16,46 @@
             </div>
         </div>
         {% endfor %}
-    
+        <div class="ml-4 mt-4 ">
+        <button type ="submit" class="btn btn-primary "> 
+            Add the Expense
+        </button> 
+    </div> 
     </form>   
     </div>
         <div class="d-flex ">
             <ul>
                 <div class="jumbotron">
+                <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">First</th>
+                  <th scope="col">Last</th>
+                  <th scope="col">Handle</th>
+                </tr>
+                </thead>
+                <tbody>
                     {% for expense in expenses %}
-                    <li class="list-unstyled">{{ expense.amount_details }} - {{ expense.amount }}, {{ expense.date }}</li>
+                    <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ expense.amount_details }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>{{ expense.date }}</td>
+                    <td><button type ="submit" class="btn btn-primary "> 
+                        x
+                    </button></td>
+                    </tr>
                 {% empty %}
+                    <tr>
                     <li class="list-unstyled">No expenses found.</li>
+                    </tr>
                 {% endfor %}
-                    {% comment %} <h1 class="display-4">Hello, world!</h1>
-                    <p class="lead"></p>
-                    <hr class="my-4">
-                    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                    <p class="lead">
-                      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                    </p> {% endcomment %}
+                </tbody>
+                </table>
                   </div>
-               
             </ul>
-       
         </div> 
     </div>
-
-        <div class="ml-4 mt-4 ">
-            <button type ="submit" class="btn btn-primary "> 
-                Add the Expense
-            </button> 
-            {% comment %} <button type = "button" onClick="" class="btn btn-primary"> Remove</button> {% endcomment %}
-        </div>                 
-    </form>    
-</div>                     
-                                                                          
-                          
-
-   
-                                                                        
+</div>                                                                    
 {% endblock %}
