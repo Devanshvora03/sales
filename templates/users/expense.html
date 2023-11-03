@@ -6,6 +6,7 @@
 </h1>
 {% for field in form %}
     <div class = "d-flex m-4"> 
+        
         {{field.label}}
         <div class="ml-3 ">
         {{field}}
@@ -15,11 +16,10 @@
     <div class="ml-4 mt-4 ">
         <button type ="submit" onClick="" class="btn btn-primary "> 
             Add the Expense
+          
         </button> 
-    </div> 
-        
         {% comment %} <button type = "button" onClick="" class="btn btn-primary"> Remove</button> {% endcomment %}
-                                                                                                                       
+    </div>                                                                                                                    
     
     
                                                                          
