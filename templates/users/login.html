@@ -37,7 +37,7 @@
                                 <div class="form-row">
                                     <div class="col-md-10 offset-md-1">
                                         <div class="form-group">
-                                          <label class="small mb-1">Password</label>
+                                          <label class="small mb-1 ">Password</label>
                                           {{ form.password }}
                                         </div>
                                     </div>
@@ -54,7 +54,7 @@
                                 <div class="form-row">
                                     <div class="col-md-10 offset-md-1">
                                         <div class="form-group mt-0 mb-1">
-                                          <button name="login" class="col-md-12 btn btn-dark" id="login">Sign in</button>
+                                          <button name="login" class="col-md-12 btn btn-primary" id="login">Sign in</button>
                                         </div>
                                     </div>
                                 </div>
@@ -63,16 +63,16 @@
                                            
 
                                             <a href="{% url 'social:begin' 'github' %}"
-                                            class="btn btn-link btn-lg active btn-block text-dark" >Sign in with GitHub</a>
+                                            class="btn btn-link btn-lg active btn-block text-primary" >Sign in with GitHub</a>
                                      <a href="{% url 'social:begin' 'google-oauth2' %}"
-                                            class="btn btn-link btn-lg active btn-block text-dark">Sign in with Google</a>            
+                                            class="btn btn-link btn-lg active btn-block text-primary">Sign in with Google</a>            
                             </form> 
                         </div>
                         <div class="card-footer text-center">
                             <div class="small ">
                                 <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
                                 <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
-                            </div>
+                            </div>  
                         </div>
                     </div>
                 </div>

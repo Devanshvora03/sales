@@ -26,11 +26,16 @@
             <div class="form-row">
                 <div class="col">
                     <div class="form-group m-2">
-                        
-                        <label class="small mb-0 ">First Name:</label>
-                        {{ user_form.first_name }}
-                            <label class="small mb-1">Last Name:</label>
-                            {{ user_form.last_name }}
+                        <div class="d-flex w-100">
+                        <div class = "">
+                            <label class="small mb-0 ">First Name:</label>
+                            {{ user_form.first_name }} 
+                        </div>
+                        <div class = "ml-4">
+                            <label class="small mb-0">Last Name:</label>
+                            {{ user_form.last_name }} 
+                        </div>
+                        </div>
                             <label class="small mb-1">Email:</label>
                             {{ user_form.email }} 
                         <label class="small mb-1">Username:</label>
@@ -48,28 +53,28 @@
                         <a href="{% url 'password_change' %}">Change Password</a>
                     </div>
                     </div>
-                    <div class= "m-4" >
+                    {% comment %} <div class= "m-4" >
                         <img class="rounded-circle account-img" style="width:100px;height:100px" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
                          {% comment %} margin: 1rem 0 0 29rem {% endcomment %}
-                    </div>
+                    {% comment %} </div> {% endcomment %}
                     </div>
                 </div>
                    
                 </div>
                     <div class="form-row ml-4">
                         <div class="col-m-5 ml-3">
-                            <div class="form-group m-2" >                  
+                            {% comment %} <div class="form-group m-2" >                  
                        
                         <label class="small mb-1">Change Avatar:</label>
                         {{ profile_form.avatar }}
-                    </div>
+                    </div> {% endcomment %}
                     <label class="small m-2">Bio:</label> {{ profile_form.bio }}
                 </div>
             </div>
         </div>
             <br><br>
-            <button type="submit" class="btn btn-dark btn-lg ml-4">Save Changes</button>
-            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+            <button type="submit" class="btn btn-primary btn-lg ml-4">Save Changes</button>
+            <button type="reset" class="btn btn-primary btn-lg">Reset</button>
                </div>
         </form>
     </div>
