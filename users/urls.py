@@ -7,4 +7,6 @@ urlpatterns = [
     path('profile/', profile, name='users-profile'),
     path('expense/', expense, name='expense'),
     path('coordinate/', coordinate, name='coordinate'),
+    path('update-coordinates/', update_coordinates, name='update-coordinates'),
+    path('expense/delete/<int:expense_id>/', delete_expense, name='delete-expense'),
 ]

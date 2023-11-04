@@ -44,11 +44,14 @@
                     <td>{{ expense.amount }}</td>
                     <td>{{expense.date}}</td>
                     <td></td>
-                    
-                    <td><button type ="submit" class="btn btn-danger btn-sm "> 
-                        x
-                    </button></td>
-
+                    <td>
+                        <form method="post" action="{% url 'delete-expense' expense.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                x
+                            </button>
+                        </form>
+                    </td>
                     </tr>
                 {% comment %} {% empty %}
                     <tr>

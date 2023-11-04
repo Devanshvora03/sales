@@ -1,1 +1,39 @@
 {% extends "users/base.html" %}
+
+{% block content %}
+    <!-- Your existing profile content goes here -->
+
+    <!-- Add the button and JavaScript code here -->
+    <button id="update-coordinates-btn">Update My Coordinates</button>
+
+    <script>
+    document.getElementById('update-coordinates-btn').addEventListener('click', function() {
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                fetch('/update-coordinates/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `latitude=${latitude}&longitude=${longitude}`,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Coordinates updated successfully') {
+                        alert('Coordinates updated successfully');
+                    } else {
+                        alert('Failed to update coordinates');
+                    }
+                });
+            });
+        } else {
+            alert('Geolocation is not available in your browser.');
+        }
+    });
+    </script>
+</div>
+{% endblock %}

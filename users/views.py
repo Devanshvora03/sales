@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
@@ -123,5 +124,26 @@ def expense(request):
     expenses = Expense.objects.filter(user_id=user)
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
 
+def delete_expense(request, expense_id):
+    expense = get_object_or_404(Expense, id=expense_id)
+
+    if expense.user_id == request.user:
+        expense.delete()
+        messages.success(request, 'Expense deleted successfully.')
+    else:
+        messages.error(request, 'You do not have permission to delete this expense.')
+
+    return redirect('expense')
+
 def coordinate(request):
     return render(request, 'users/coordinate.html')
+
+def update_coordinates(request):
+    if request.method == 'POST':
+        
+        coordinates = Coordinate.objects.create(
+            latitude = request.POST.get('latitude'),
+            longitude = request.POST.get('longitude')
+        )
+        coordinates.save()
+        return JsonResponse({'message': 'Coordinates updated successfully'})
