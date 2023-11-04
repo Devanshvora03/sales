@@ -147,5 +147,7 @@ def update_coordinates(request):
         )
         coordinates.save()
         return JsonResponse({'message': 'Coordinates updated successfully'})
-
-
+    
+def map_view(request):
+    coordinates = Coordinate.objects.filter(user_id=request.user)
+    return render(request, 'users/map.html', {'coordinates': coordinates})
