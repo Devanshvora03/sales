@@ -158,12 +158,18 @@ def update_coordinates(request):
 #     return render(request, 'users/map.html', {'coordinates': list(coordinates)})
 
 def maps(request):
-    coordinates = list(Coordinate.objects.values_list('latitude', 'longitude'))[-1]
+    coordinates = Coordinate.objects.all()
+    fp = coordinates.first()
+    print(coordinates)
+    coordinate_list = []
+    for i in coordinates:
+        print(i.latitude, i.longitude)
+        coordinate_list.append((i.latitude, i.longitude))
 
-    print(Coordinate.objects.values_list('latitude', 'longitude'))
 
     map = folium.Map(location=[coordinates['latitude'], coordinates['longitude']])  # Specify latitude and longitude separately
-    folium.Marker([coordinates['latitude'], coordinates['longitude']]).add_to(map)
+    folium.Marker(location=[fp.latitude, fp.longitude]).add_to(map)
+    folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(map)
     folium.raster_layers.TileLayer('Stamen Terrain').add_to(map)
     folium.raster_layers.TileLayer('Stamen Toner').add_to(map)
     folium.raster_layers.TileLayer('Stamen Watercolor').add_to(map)
