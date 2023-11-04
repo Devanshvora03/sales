@@ -99,6 +99,6 @@ class ExpenseForm(forms.ModelForm):
         model = Expense
         exclude = ('user_id',)
         widgets = {
-            'amount_details': forms.Textarea(attrs={'cols': 40, 'rows': 3})
+            'amount_details': forms.Textarea(attrs={'cols': 30, 'rows': 3})
         }   
         
