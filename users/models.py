@@ -18,8 +18,8 @@ class Expense(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
-    amount_details = models.TextField(blank=True, null=True)
-    date = models.DateField(auto_now_add=True, blank=True, null=True)
+    amount_details = models.TextField(blank=True, null=True,)
+    date = models.DateField(auto_now_add=True, blank=True, null=True,)
 
     def __str__(self):
         return self.user_id.username + " " + str(self.date)
