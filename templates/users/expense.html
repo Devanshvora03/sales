@@ -1,16 +1,16 @@
 {% extends "users/base.html" %}
 {% block content %}
 
-<h1 class="p-3" >
+<h1 class="p-3">
     Add Your Expense
 </h1>
     <form  method="post">
-        <div class="d-flex">
+        <div class="d-flex w-100">
         {% csrf_token %}
         {% for field in form %}
-        <div class = "d-flex m-4 "> 
+        <div class = "d-flex m-2"> 
             {{field.label}}
-            <div class="ml-3 ">
+            <div class="ml-3">
             {{field}}
             </div>
         </div>
@@ -20,14 +20,14 @@
             Add the Expense
         </button> 
     </div> 
-    </form>   
 </div>
+    </form>   
         <div class="m-auto w-100 " >
             <div class="">
                 {% if expenses %}
                 <div class="jumbotron p-3 ">
                     <h3 class="text-center p-3">Expense List</h3>
-                <table class="table mx-auto w-75">
+                <table class="table mx-auto " style="word-break: break-word;">
                 <thead class="table-secondary">
                 <tr>
                   <th scope="col ">#</th>
@@ -41,9 +41,9 @@
                     {% for expense in expenses %}   
                     <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td class="">{{ expense.amount_details }}</td>
-                    <td>{{ expense.amount }}</td>
-                    <td>{{expense.date}}</td>
+                    <td class="" >{{ expense.amount_details }}</td>
+                    <td class="w-25">{{ expense.amount }}</td>
+                    <td class="w-25">{{expense.date}}</td>
                     <td class="">
                         <form method="post" action="{% url 'delete-expense' expense.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm">x</button></form>
                     </td>
@@ -54,7 +54,5 @@
             </div>
             {% endif %}
         </div> 
-    </div>
-0    </div>
-</div>                                                                    
+    </div>                                                                   
 {% endblock %}
