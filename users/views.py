@@ -1,5 +1,5 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.contrib import messages
@@ -123,6 +123,17 @@ def expense(request):
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
+
+def delete_expense(request, expense_id):
+    expense = get_object_or_404(Expense, id=expense_id)
+
+    if expense.user_id == request.user:
+        expense.delete()
+        messages.success(request, 'Expense deleted successfully.')
+    else:
+        messages.error(request, 'You do not have permission to delete this expense.')
+
+    return redirect('expense')
 
 def coordinate(request):
     return render(request, 'users/coordinate.html')
