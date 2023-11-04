@@ -1,0 +1,26 @@
+{% extends "users/base.html" %}
+
+{% block content %}
+    <h1>Coordinates Timeline</h1>
+    <div id="map" style="height: 500px;"></div>
+
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);  // Default view with fallback coordinates
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        var coordinates = [
+            {% for coordinate in coordinates %}
+            {
+                lat: {{ coordinate.latitude }},
+                lon: {{ coordinate.longitude }},
+                timestamp: "{{ coordinate.date_time }}"
+            },
+            {% endfor %}
+        ];
+
+        for (var i = 0; i < coordinates.length; i++) {
+            L.marker([coordinates[i].lat, coordinates[i].lon]).addTo(map)
+                .bindPopup("Timestamp: " + coordinates[i].timestamp);
+        }
+    </script>
+{% endblock %}
