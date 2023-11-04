@@ -149,5 +149,7 @@ def update_coordinates(request):
         return JsonResponse({'message': 'Coordinates updated successfully'})
     
 def map_view(request):
-    coordinates = Coordinate.objects.filter(user_id=request.user)
-    return render(request, 'users/map.html', {'coordinates': coordinates})
+    # Retrieve coordinates from the Coordinate model
+    coordinates = Coordinate.objects.filter(user_id=request.user).values('latitude', 'longitude', 'date_time')
+
+    return render(request, 'users/map.html', {'coordinates': list(coordinates)})
