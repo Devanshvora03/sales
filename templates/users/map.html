@@ -1,36 +1,12 @@
 {% extends "users/base.html" %}
-
+<html lang="en">
 {% block content %}
-<!DOCTYPE html>
-<html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>Map</title>
-    <!-- Include Leaflet and Folium CSS and JavaScript -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/folium@0.12.1/folium.js"></script>
-</head>
-<body>
-    <div id="map" style="width: 100%; height: 600px;"></div>
-
-    <script>
-        // Initialize the map
-        var map = L.map('map').setView([0, 0], 2);  // Set the initial view (center and zoom)
-
-        // Add a tile layer (you can use different tile providers)
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // JavaScript code to render the coordinates from your Django view
-        var coordinates = JSON.parse('{{ coordinates|safe }}'); // Get coordinates from your view
-        for (var i = 0; i < coordinates.length; i++) {
-            var coordinate = coordinates[i];
-            L.marker([coordinate.latitude, coordinate.longitude]).addTo(map)
-                .bindPopup('Recorded at: ' + coordinate.date_time);
-        }
-    </script>
-</body>
-</html>
-{% endblock %}
+ </head>
+ <body>
+     <div> {{ map | safe }}</div>
+  </body>
+  </html>
+ {% endblock %}

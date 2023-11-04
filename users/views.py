@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
+import folium
 from .models import * 
 from .forms import *
 
@@ -146,10 +147,30 @@ def update_coordinates(request):
             longitude = request.POST.get('longitude')
         )
         coordinates.save()
+        print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
     
-def map_view(request):
-    # Retrieve coordinates from the Coordinate model
-    coordinates = Coordinate.objects.filter(user_id=request.user).values('latitude', 'longitude', 'date_time')
+    
+# def map_view(request):
+#     # Retrieve coordinates from the Coordinate model
+#     coordinates = Coordinate.objects.filter(user_id=request.user).values('latitude', 'longitude', 'date_time')
 
-    return render(request, 'users/map.html', {'coordinates': list(coordinates)})
+#     return render(request, 'users/map.html', {'coordinates': list(coordinates)})
+
+def maps(request):
+    coordinates = list(Coordinate.objects.values_list('latitude', 'longitude'))[-1]
+
+    print(Coordinate.objects.values_list('latitude', 'longitude'))
+
+    map = folium.Map(location=[coordinates['latitude'], coordinates['longitude']])  # Specify latitude and longitude separately
+    folium.Marker([coordinates['latitude'], coordinates['longitude']]).add_to(map)
+    folium.raster_layers.TileLayer('Stamen Terrain').add_to(map)
+    folium.raster_layers.TileLayer('Stamen Toner').add_to(map)
+    folium.raster_layers.TileLayer('Stamen Watercolor').add_to(map)
+    folium.LayerControl().add_to(map)
+
+    map = map._repr_html_()
+    context = {
+        'map': map,
+    }
+    return render(request, 'users/map.html', context)
