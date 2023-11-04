@@ -45,7 +45,7 @@
                     <td class="">{{ expense.amount_details }}</td>
                     <td>{{ expense.amount }}</td>
                     <td>{{expense.date}}</td>
-                    <td></td>
+                    
                     <td>
                         <form method="post" action="{% url 'delete-expense' expense.id %}">
                             {% csrf_token %}
@@ -65,6 +65,6 @@
                   </div>
         </div> 
     </div>
-    </div>
+0    </div>
 </div>                                                                    
 {% endblock %}

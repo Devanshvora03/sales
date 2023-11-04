@@ -147,3 +147,5 @@ def update_coordinates(request):
         )
         coordinates.save()
         return JsonResponse({'message': 'Coordinates updated successfully'})
+
+
