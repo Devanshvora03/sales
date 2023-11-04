@@ -22,7 +22,7 @@ class Expense(models.Model):
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
 
     def __str__(self):
-        return self.user_id.username + " " + str(self.date)
+        return self.user_id.username + "'s expense at " + str(self.date)
     
 class Coordinate(models.Model):
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
