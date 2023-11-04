@@ -4,7 +4,6 @@
 <h1 class="p-3" >
     Add Your Expense
 </h1>
-<div class= "d-flex flex-row">
     <form  method="post">
         <div class="d-flex">
         {% csrf_token %}
@@ -22,11 +21,10 @@
         </button> 
     </div> 
     </form>   
-    </div>
 </div>
         <div class="m-auto w-100 " >
             <div class="">
-            
+                {% if expenses %}
                 <div class="jumbotron p-3 ">
                     <h3 class="text-center p-3">Expense List</h3>
                 <table class="table">
@@ -50,15 +48,17 @@
                     <td><button type ="submit" class="btn btn-danger btn-sm "> 
                         x
                     </button></td>
+
                     </tr>
-                {% empty %}
+                {% comment %} {% empty %}
                     <tr>
                     <td>No expenses found.</td>
-                    </tr>
+                    </tr> {% endcomment %}
                 {% endfor %}
                 </tbody>
                 </table>
-                  </div>
+            </div>
+            {% endif %}
         </div> 
     </div>
     </div>

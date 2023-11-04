@@ -1,6 +1,8 @@
-@media(min-width){
 
-}
 .bg1{
     background-color: #f0f5f5!important
+}
+
+.over1{
+    overflow-x: hidden!important;
 }
