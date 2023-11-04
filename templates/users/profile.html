@@ -19,66 +19,60 @@
             </button>
         </div>
     {% endif %}
-    <div class="d-flex p-1">
-    <div class="ml-4 form-content w-25 ">
+    <div class="p-3">
+    <div class="bg-light w-25 m-auto rounded " style="width: 30% !important;" >
+    <div class="d-flex p-3 justify-content-center form-content " style="width: 440px">
+    <div class="">
+        
         <form  id="profileForm" >
             {% csrf_token %}
             <div class="form-row">
                 <div class="col">
-                    <div class="form-group m-2">
+                    <div class="form-group">
                         <div class="d-flex w-100">
-                        <div class = "">
+                           <div class = "">
                             <label class="small mb-0 ">First Name:</label>
                             {{ user_form.first_name }} 
-                        </div>
-                        <div class = "ml-4">
+                           </div>
+                            <div class = "ml-4">
                             <label class="small mb-0">Last Name:</label>
                             {{ user_form.last_name }} 
-                        </div>
+                            </div>
                         </div>
                             <label class="small mb-1">Email:</label>
                             {{ user_form.email }} 
-                        <label class="small mb-1">Username:</label>
+                            <label class="small mb-1">Username:</label>
                             {{ user_form.username }} 
-                        <label class="small mb-1">Phone Number:</label>
-                        {{profile_form.phone}}
+                            <label class="small mb-1">Phone Number:</label>
+                            {{profile_form.phone}}
                             
-                        <label class="small mb-1">Address:</label>
-                        <label for="exampleFormControlTextarea1"></label>
-                        {{profile_form.address}}
-                                    </div>
-                                </div>
-                            </div>
-                    <div class="form-group m-2">
-                        <a href="{% url 'password_change' %}">Change Password</a>
+                            <label class="small mb-1">Address:</label>
+                            <label for="exampleFormControlTextarea1"></label>
+                            {{profile_form.address}}
                     </div>
-                    </div>
-                    {% comment %} <div class= "m-4" >
-                        <img class="rounded-circle account-img" style="width:100px;height:100px" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
-                         {% comment %} margin: 1rem 0 0 29rem {% endcomment %}
-                    {% comment %} </div> {% endcomment %}
-                    </div>
-                </div>
-                   
-                </div>
-                    <div class="form-row ml-4">
-                        <div class="col-m-5 ml-3">
-                            {% comment %} <div class="form-group m-2" >                  
-                       
-                        <label class="small mb-1">Change Avatar:</label>
-                        {{ profile_form.avatar }}
-                    </div> {% endcomment %}
-                    <label class="small m-2">Bio:</label> {{ profile_form.bio }}
                 </div>
             </div>
-        </div>
-            <br><br>
-            <button type="submit" class="btn btn-primary btn-lg ml-4">Save Changes</button>
-            <button type="reset" class="btn btn-primary btn-lg">Reset</button>
-               </div>
+                    <div class="form-group">
+                        <a href="{% url 'password_change' %}">Change Password</a>
+                    </div>           
         </form>
+    
+    <div class="">
+        <div class="form-row ">
+            <div class="col-m-5">
+                <label class="small">Bio:</label> {{ profile_form.bio }}
+            </div>
+        </div>
+    
+           <div class="p-2"></div>
+            <button type="submit" class="btn btn-primary btn-lg">Save Changes</button>
+            <button type="reset" class="btn btn-primary btn-lg">Reset</button>
     </div>
-
+    </div>
+    </div>
+    </div>
+    </div>
+    
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
  $('#profileForm').on('submit' , function(e){
