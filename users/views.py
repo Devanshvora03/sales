@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
@@ -125,3 +126,13 @@ def expense(request):
 
 def coordinate(request):
     return render(request, 'users/coordinate.html')
+
+def update_coordinates(request):
+    if request.method == 'POST':
+        
+        coordinates = Coordinate.objects.create(
+            latitude = request.POST.get('latitude'),
+            longitude = request.POST.get('longitude')
+        )
+        coordinates.save()
+        return JsonResponse({'message': 'Coordinates updated successfully'})
