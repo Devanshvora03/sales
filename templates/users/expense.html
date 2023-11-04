@@ -4,7 +4,6 @@
 <h1 class="p-3" >
     Add Your Expense
 </h1>
-<div class= "d-flex flex-row">
     <form  method="post">
         <div class="d-flex">
         {% csrf_token %}
@@ -22,20 +21,20 @@
         </button> 
     </div> 
     </form>   
-    </div>
 </div>
         <div class="m-auto w-100 " >
             <div class="">
-            
+                {% if expenses %}
                 <div class="jumbotron p-3 ">
                     <h3 class="text-center p-3">Expense List</h3>
-                <table class="table">
-                <thead>
+                <table class="table mx-auto w-75">
+                <thead class="table-secondary">
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col ">#</th>
                   <th scope="col">Amount Details</th>
                   <th scope="col">Amount</th>
                   <th scope="col">Date</th>
+                  <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -45,24 +44,15 @@
                     <td class="">{{ expense.amount_details }}</td>
                     <td>{{ expense.amount }}</td>
                     <td>{{expense.date}}</td>
-                    <td></td>
-                    <td>
-                        <form method="post" action="{% url 'delete-expense' expense.id %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                x
-                            </button>
-                        </form>
+                    <td class="">
+                        <form method="post" action="{% url 'delete-expense' expense.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm">x</button></form>
                     </td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                    <td>No expenses found.</td>
                     </tr>
                 {% endfor %}
                 </tbody>
                 </table>
-                  </div>
+            </div>
+            {% endif %}
         </div> 
     </div>
     </div>
