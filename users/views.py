@@ -1,3 +1,4 @@
+import folium
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
@@ -6,7 +7,6 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
-import folium
 from .models import * 
 from .forms import *
 
@@ -149,7 +149,6 @@ def update_coordinates(request):
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
-    
     
 # def map_view(request):
 #     # Retrieve coordinates from the Coordinate model
