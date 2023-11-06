@@ -1,5 +1,6 @@
+import csv
 import folium
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
@@ -135,6 +136,32 @@ def delete_expense(request, expense_id):
         messages.error(request, 'You do not have permission to delete this expense.')
 
     return redirect('expense')
+
+def download_expenses_csv(request):
+    expenses = Expense.objects.filter(user_id=request.user)
+
+    # Create an HTTP response with CSV content type and attachment header
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="expenses.csv"'
+
+    csv_writer = csv.writer(response)
+    
+    # Write the header row with column names
+    header = ['User', 'Amount', 'Currency', 'Amount Details', 'Date']
+    csv_writer.writerow(header)
+
+    # Write the data rows
+    for expense in expenses:
+        data_row = [
+            expense.user_id.username,
+            expense.amount,
+            expense.currency,
+            expense.amount_details,
+            expense.date,
+        ]
+        csv_writer.writerow(data_row)
+
+    return response
 
 def coordinate(request):
     return render(request, 'users/coordinate.html')
