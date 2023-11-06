@@ -1,3 +1,4 @@
+import folium
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
@@ -6,7 +7,6 @@ from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views import View
 from django.contrib.auth.decorators import login_required
-import folium
 from .models import * 
 from .forms import *
 
@@ -150,33 +150,25 @@ def update_coordinates(request):
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
     
-    
 # def map_view(request):
 #     # Retrieve coordinates from the Coordinate model
 #     coordinates = Coordinate.objects.filter(user_id=request.user).values('latitude', 'longitude', 'date_time')
-
 #     return render(request, 'users/map.html', {'coordinates': list(coordinates)})
 
 def maps(request):
     coordinates = Coordinate.objects.all()
     fp = coordinates.first()
-    print(coordinates)
     coordinate_list = []
+    mapObject = folium.Map(location=[fp.latitude, fp.longitude])  # Specify latitude and longitude separately
     for i in coordinates:
-        print(i.latitude, i.longitude)
+        #print(i.latitude, i.longitude)
         coordinate_list.append((i.latitude, i.longitude))
+        folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
+        folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
+    folium.LayerControl().add_to(mapObject)
 
-
-    map = folium.Map(location=[coordinates['latitude'], coordinates['longitude']])  # Specify latitude and longitude separately
-    folium.Marker(location=[fp.latitude, fp.longitude]).add_to(map)
-    folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(map)
-    folium.raster_layers.TileLayer('Stamen Terrain').add_to(map)
-    folium.raster_layers.TileLayer('Stamen Toner').add_to(map)
-    folium.raster_layers.TileLayer('Stamen Watercolor').add_to(map)
-    folium.LayerControl().add_to(map)
-
-    map = map._repr_html_()
+    mapContext = mapObject._repr_html_()
     context = {
-        'map': map,
+        'maps': mapContext,
     }
-    return render(request, 'users/map.html', context)
+    return render(request, 'users/maps.html', context)

@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from PIL import Image
-
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -31,4 +29,3 @@ class Coordinate(models.Model):
 
     def __str__(self):
             return 'Coordinates at  ' + str(self.date_time)
-    

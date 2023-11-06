@@ -28,7 +28,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ml-auto">
                   {% if user.is_authenticated %}
-                    <a href="{% url 'map' %}" class="nav-item nav-link ">View Map</a>
+                    <a href="{% url 'maps' %}" class="nav-item nav-link ">View Map</a>
                     <a href="{% url 'coordinate' %}" class="nav-item nav-link ">Add Coordinate</a>
                     <a href="{% url 'expense' %}" class="nav-item nav-link ">Add Expense</a>
                     <a href="{% url 'users-profile' %}" class="nav-item nav-link mr-2">Profile</a>
@@ -36,7 +36,6 @@
                   {% else %}
                     <a href="{% url 'login' %}"button class="nav-item nav-link btn btn-primary text-light pt-1">Sign in</a>
                   {% endif %}
-
                 </div>
             </div>
         </nav>
@@ -64,6 +63,5 @@
 
     <!-- A plugin for password show/hide  -->
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
-
 </body>
 </html>
