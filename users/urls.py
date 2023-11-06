@@ -9,5 +9,6 @@ urlpatterns = [
     path('coordinate/', coordinate, name='coordinate'),
     path('update-coordinates/', update_coordinates, name='update-coordinates'),
     path('expense/delete/<int:expense_id>/', delete_expense, name='delete-expense'),
+    path('download-expenses-csv/', download_expenses_csv, name='download-expenses-csv'),
     path('maps/', maps, name='maps'),
 ]

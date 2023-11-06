@@ -4,21 +4,22 @@
 <h1 class="p-3">
     Add Your Expense
 </h1>
-    <form  method="post">
-        <div class="dflex1 d-flex w-100">
-        <div class = "dflex1 d-flex"> 
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="margin1 d-flex m-4">
-            <div class="w-50 mx-2">
-            {{field.label}}:
+<form method="post">
+    <div class="dflex1 d-flex w-100">
+        <div class="dflex1 d-flex">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="margin1 d-flex m-4">
+                <div class="w-50 mx-2">
+                    {{ field.label }}:
+                </div>
+                <div class="">
+                    {{ field }}
+                </div>
             </div>
-            <div class="">
-            {{field}}
-            </div>
-        </div>
             {% endfor %}
         </div>
+<<<<<<< HEAD
         <div class="ml-2 my-4 ">
         <button type ="submit" class="btn btn-primary "> 
             Add the Expense
@@ -32,31 +33,50 @@
                 <div class="jumbotron p-2 ">
                     <h3 class="text-center p-3">Expense List</h3>
                 <table class="table mx-auto " style="word-break: break-word;">
+=======
+        <div class="ml-2 my-4">
+            <button type="submit" class="btn btn-primary">
+                Add the Expense
+            </button>
+        </div>
+    </div>
+</form>
+<div class="m-auto w-100">
+    <div class="">
+        {% if expenses %}
+        <div class="jumbotron p-3">
+            <h3 class="text-center p-3">Expense List</h3>
+            <a href="{% url 'download-expenses-csv' %}" class="btn btn-success">Download Expenses CSV</a>
+            <table class="table mx-auto" style="word-break: break-word;">
+>>>>>>> 2754a28fc6fc2e38bea499a244815fbce5651a00
                 <thead class="table-secondary">
                 <tr>
-                  <th scope="col ">#</th>
-                  <th scope="col">Amount Details</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Date</th>
-                  <th scope="col"></th>
+                    <th scope="col">#</th>
+                    <th scope="col">Amount Details</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                    {% for expense in expenses %}   
+                    {% for expense in expenses %}
                     <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td class="" >{{ expense.amount_details }}</td>
-                    <td class="w-25">{{ expense.amount }}</td>
-                    <td class="w-25">{{expense.date}}</td>
-                    <td class="">
-                        <form method="post" action="{% url 'delete-expense' expense.id %}">{% csrf_token %}<button type="submit" class="btn btn-danger btn-sm">x</button></form>
-                    </td>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td class="">{{ expense.amount_details }}</td>
+                        <td class="w-25">{{ expense.amount }}</td>
+                        <td class="w-25">{{ expense.date }}</td>
+                        <td class="">
+                            <form method="post" action="{% url 'delete-expense' expense.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">x</button>
+                            </form>
+                        </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
                 </tbody>
-                </table>
-            </div>
-            {% endif %}
-        </div> 
-    </div>                                                                   
+            </table>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
