@@ -10,5 +10,5 @@ class ExpenseAdmin(admin.ModelAdmin):
     actions = [export_expenses_to_csv]  # Add the custom action
 
 admin.site.register(Profile)
-admin.site.register(Expense, ExpenseAdmin)
 admin.site.register(Coordinate)
+admin.site.register(Expense, ExpenseAdmin)

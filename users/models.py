@@ -1,5 +1,5 @@
-from django.db import models
 from django.contrib.auth.models import User
+from django.db import models
 
 # Extending User Model Using a One-To-One Link
 class Profile(models.Model):
@@ -28,4 +28,4 @@ class Coordinate(models.Model):
     date_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
     def __str__(self):
-            return 'Coordinates at  ' + str(self.date_time)
+        return 'Coordinates at  ' + str(self.date_time)
