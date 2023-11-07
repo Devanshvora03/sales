@@ -138,7 +138,7 @@ def delete_expense(request, expense_id):
 
     if expense.user_id == request.user:
         expense.delete()
-        messages.success(request, 'Expense deleted successfully.')
+        messages.warning(request, 'Expense deleted successfully.')
     else:
         messages.error(request, 'You do not have permission to delete this expense.')
 
@@ -160,12 +160,15 @@ def download_expenses_csv(request):
 
     # Write the data rows
     for expense in expenses:
+        # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
+        formatted_date = expense.date.strftime('%Y-%m-%d')
+        print(formatted_date)
         data_row = [
             expense.user_id.username,
             expense.amount,
             expense.currency,
             expense.amount_details,
-            expense.date,
+            formatted_date,  # Include the formatted date in the data row
         ]
         print(data_row)
         csv_writer.writerow(data_row)

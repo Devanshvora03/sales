@@ -30,8 +30,11 @@
     <div class="">
         {% if expenses %}
         <div class="jumbotron p-3">
-            <h3 class="text-center p-3">Expense List</h3>
-            <a href="{% url 'download-expenses-csv' %}" class="btn btn-success">Download Expenses CSV</a>
+            <div class="d-flex justify-content-end mb-4">
+            <h3 class="text-center m-auto">Expense List</h3> <a href="{% url 'download-expenses-csv' %}" class ="d-flex justify-content-end" > <div class="btn btn-success">Download Expenses CSV</div> </a> </div>
+           
+          
+
             <table class="table mx-auto" style="word-break: break-word;">
                 <thead class="table-secondary">
                 <tr>
