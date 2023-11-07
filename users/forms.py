@@ -1,6 +1,6 @@
-from django import forms
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
+from django import forms
 from .models import *
 
 
@@ -89,9 +89,11 @@ class UpdateProfileForm(forms.ModelForm):
     bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     address = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+
     class Meta:
         model = Profile
         fields = ['avatar', 'bio','phone','address']
+
 
 class ExpenseForm(forms.ModelForm):
 
@@ -101,4 +103,3 @@ class ExpenseForm(forms.ModelForm):
         widgets = {
             'amount_details': forms.Textarea(attrs={'cols': 30, 'rows': 3})
         }   
-        

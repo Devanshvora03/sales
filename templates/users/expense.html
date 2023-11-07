@@ -50,7 +50,7 @@
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td class="">{{ expense.amount_details }}</td>
-                        <td class="w-25">{{ expense.amount }}</td>
+                        <td class="w-25">{{ expense.amount }} {{ expense.currency }}</td>
                         <td class="w-25">{{ expense.date }}</td>
                         <td class="">
                             <form method="post" action="{% url 'delete-expense' expense.id %}">

@@ -1,18 +1,23 @@
-import csv
-import folium
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
-from django.contrib import messages
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
-from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
+from datetime import datetime, timedelta
+from django.urls import reverse_lazy
+from django.contrib import messages
+from django.views import View
 from .models import * 
 from .forms import *
+import folium
+import csv
+from django.db.models import Q  # Import Q for complex queries
+from django.utils import timezone  # Import timezone
+
 
 def home(request):
     return render(request, 'users/home.html')
+
 
 class RegisterView(View):
     form_class = RegisterForm
@@ -61,7 +66,7 @@ class CustomLoginView(LoginView):
 
         # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
         return super(CustomLoginView, self).form_valid(form)
-
+    
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -108,6 +113,7 @@ def profile(request):
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
 
+
 def expense(request):
     user = request.user
     form = ExpenseForm()
@@ -126,6 +132,7 @@ def expense(request):
     expenses = Expense.objects.filter(user_id=user)
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
 
+
 def delete_expense(request, expense_id):
     expense = get_object_or_404(Expense, id=expense_id)
 
@@ -136,6 +143,7 @@ def delete_expense(request, expense_id):
         messages.error(request, 'You do not have permission to delete this expense.')
 
     return redirect('expense')
+
 
 def download_expenses_csv(request):
     expenses = Expense.objects.filter(user_id=request.user)
@@ -167,37 +175,32 @@ def download_expenses_csv(request):
 
     return response
 
+
 def coordinate(request):
     return render(request, 'users/coordinate.html')
 
+
 def update_coordinates(request):
     if request.method == 'POST':
-        
         coordinates = Coordinate.objects.create(
-            latitude = request.POST.get('latitude'),
-            longitude = request.POST.get('longitude')
+            latitude=request.POST.get('latitude'),
+            longitude=request.POST.get('longitude'),
         )
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
-    
-# def map_view(request):
-#     # Retrieve coordinates from the Coordinate model
-#     coordinates = Coordinate.objects.filter(user_id=request.user).values('latitude', 'longitude', 'date_time')
-#     return render(request, 'users/map.html', {'coordinates': list(coordinates)})
 
 def maps(request):
     coordinates = Coordinate.objects.all()
     fp = coordinates.first()
     coordinate_list = []
-    mapObject = folium.Map(location=[fp.latitude, fp.longitude])  # Specify latitude and longitude separately
+    mapObject = folium.Map(location=[fp.latitude, fp.longitude])
     for i in coordinates:
         #print(i.latitude, i.longitude)
         coordinate_list.append((i.latitude, i.longitude))
         folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
         folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
     folium.LayerControl().add_to(mapObject)
-
     mapContext = mapObject._repr_html_()
     context = {
         'maps': mapContext,
