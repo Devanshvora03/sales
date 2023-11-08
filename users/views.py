@@ -206,3 +206,5 @@ def maps(request):
         'maps': mapContext,
     }
     return render(request, 'users/maps.html', context)
+
+
