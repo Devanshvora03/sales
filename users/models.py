@@ -29,3 +29,14 @@ class Coordinate(models.Model):
 
     def __str__(self):
         return 'Coordinates at  ' + str(self.date_time)
+    
+class ManagerProfile(models.Model):
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
+    company_name = models.CharField(max_length=20, blank=True, null=True)
+
+    def __str__(self):
+        return self.user_id.username
+
+class EmployeeManager(models.Model):
+    employee = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Employee', related_name='employee')
+    manager = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Manager', related_name='manager')

@@ -12,3 +12,5 @@ class ExpenseAdmin(admin.ModelAdmin):
 admin.site.register(Profile)
 admin.site.register(Coordinate)
 admin.site.register(Expense, ExpenseAdmin)
+admin.site.register(EmployeeManager)
+admin.site.register(ManagerProfile)
