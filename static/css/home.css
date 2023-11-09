@@ -13,3 +13,27 @@
 .overflow1{
     overflow-x: hidden!important;
 }
+.width{
+    width: 30%;
+}
+
+@media screen and (max-width:1320px){
+    .dflex12{
+            display: inline!important;
+            }
+    .margin12{
+        margin: 0 !important;
+    }
+    .width12{
+        width: 330px!important;
+    }
+}
+
+@media screen and (max-width:1320px) {
+
+    .button1{
+        font-size: 1rem !important;
+    }
+}
+    
+    

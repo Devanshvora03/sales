@@ -1,12 +1,33 @@
 {% extends "users/base.html" %}
 <html lang="en">
-{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <title>Map</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js"></script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+      $(document).ready(function() {
+          $('#date-range-picker').daterangepicker({
+              opens: 'left'
+          }, function(start, end, label) {
+              console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+          });
+      });
+    </script>
 </head>
+{% block content %}
 <body>
-    <div> {{ maps | safe }} </div>
+    <div>
+        <form method="get" action="{% url 'maps' %}">
+            <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+        </form>
+    </div>
+    <div class="maps">
+    <div > {{ maps | safe }} </div>
 </body>
-</html>
 {% endblock %}
+</html>
