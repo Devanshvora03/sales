@@ -103,5 +103,3 @@ class ExpenseForm(forms.ModelForm):
         widgets = {
             'amount_details': forms.Textarea(attrs={'cols': 30, 'rows': 3})
         }   
-
-

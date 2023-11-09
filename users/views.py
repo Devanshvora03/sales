@@ -189,6 +189,7 @@ def update_coordinates(request):
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
+    
 
 def maps(request):
     coordinates = Coordinate.objects.all()
@@ -206,5 +207,3 @@ def maps(request):
         'maps': mapContext,
     }
     return render(request, 'users/maps.html', context)
-
-
