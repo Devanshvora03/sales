@@ -19,7 +19,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js"></script>
 
 
-
+  {% block css %} {% endblock %}
 </head>
 <body>
   <div class="overflow1" >
@@ -60,7 +60,8 @@
             </button>
           </div>
         {% endif %}
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
       </div>
     </div>
   </div>
@@ -73,5 +74,7 @@
 
     <!-- A plugin for password show/hide  -->
     <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+
+    {% block js %} {% endblock %}
 </body>
 </html>
