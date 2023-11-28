@@ -185,6 +185,7 @@ def update_coordinates(request):
         coordinates = Coordinate.objects.create(
             latitude=request.POST.get('latitude'),
             longitude=request.POST.get('longitude'),
+            user_id = request.user
         )
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
