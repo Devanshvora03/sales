@@ -4,7 +4,7 @@
 <body>
     <div class="mt-5 container w-50 justify-content-center"> 
         <form method="get" action="{% url 'maps' %}">
-            <input type="text" name="daterange" value="01/01/2018 - 01/15/2018" />
+            <input type="text" id = " datePicker " name="daterange" value="01/01/2018 - 01/15/2018" />
         </form>
     </div>
     <div class="maps">
@@ -14,11 +14,38 @@
 {% block js %}
 <script>
     $(document).ready(function() {
-        $('#date-range-picker').daterangepicker({
+        $('#datePicker').daterangepicker({
             opens: 'left'
         }, function(start, end, label) {
             console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
         });
+
+        $('#datePicker').on('change' , function(e){
+            e.preventDefault();
+            $.ajax({
+                url: "{% url 'maps' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    $("#form_errors").html("");
+                    $("#form_errors").hide();
+                    $("#form_success").html(data.message);
+                    $("#form_success").show();
+                },
+                error: function(data){
+                    $("#form_success").html("");
+                    $("#form_success").hide();
+                    $("#form_errors").html("");
+                    $("#form_errors").show();
+                    $.each(data.responseJSON, function(key, value){
+                        $("#form_errors").append("<strong>"+value+"</strong>");
+                    });
+                }
+            });
+        })
     });
+
   </script>
 {% endblock %}
