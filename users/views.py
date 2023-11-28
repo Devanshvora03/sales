@@ -97,7 +97,6 @@ def profile(request):
             print(profile_form , '=== profile form ===')
             user_form.save()
             profile_form.save()
-
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
         elif user_form.is_valid():
