@@ -82,7 +82,7 @@
             e.preventDefault();
             var formData = new FormData(this);
             $.ajax({
-                url: "{% url 'profile' %}",
+                url: "{% url 'users-profile' %}",
                 type: "POST",
                 data: formData,
                 processData: false,
