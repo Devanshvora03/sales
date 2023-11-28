@@ -74,22 +74,36 @@
     </div>
     </div>
     
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script>
- $('#profileForm').on('submit' , function(e){
-    e.preventDefault();
-    data =  $('#profileForm').serialize()
-    console.log(data);
-    $.ajax({
-        method : "post",
-        url : "{% url 'users-profile' %}",
-        data : data,
-        success : function(data){
-            console.log(data);
-            alert("data updated succesfully")
-            {% comment %} location.reload() {% endcomment %}
-        },
-    })
- })
-</script>
 {% endblock content %}
+{% block js %}
+<script>
+    $(document).ready(function(){
+        $("#profileForm").submit(function(e){
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                url: "{% url 'profile' %}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    $("#form_errors").html("");
+                    $("#form_errors").hide();
+                    $("#form_success").html(data.message);
+                    $("#form_success").show();
+                },
+                error: function(data){
+                    $("#form_success").html("");
+                    $("#form_success").hide();
+                    $("#form_errors").html("");
+                    $("#form_errors").show();
+                    $.each(data.responseJSON, function(key, value){
+                        $("#form_errors").append("<strong>"+value+"</strong>");
+                    });
+                }
+            });
+        });
+    });
+</script>
+{% endblock js %}
