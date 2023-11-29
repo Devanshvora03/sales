@@ -97,7 +97,6 @@ def profile(request):
             print(profile_form , '=== profile form ===')
             user_form.save()
             profile_form.save()
-
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
         elif user_form.is_valid():
@@ -179,12 +178,13 @@ def download_expenses_csv(request):
 def coordinate(request):
     return render(request, 'users/coordinate.html')
 
-
+@login_required(login_url='/login/')
 def update_coordinates(request):
     if request.method == 'POST':
         coordinates = Coordinate.objects.create(
             latitude=request.POST.get('latitude'),
             longitude=request.POST.get('longitude'),
+            user_id = request.user
         )
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
@@ -192,7 +192,27 @@ def update_coordinates(request):
     
 
 def maps(request):
-    coordinates = Coordinate.objects.all()
+    if request.method == 'POST':
+        start = request.POST.get('start')
+        end = request.POST.get('end')
+        coordinates = Coordinate.objects.filter(user_id= request.user)
+        coordinate = coordinate.filter(date_time__range=(start, end)) 
+        fp = coordinates.first()
+        coordinate_list = []
+        mapObject = folium.Map(location=[fp.latitude, fp.longitude])
+        for i in coordinates:
+            #print(i.latitude, i.longitude)
+            coordinate_list.append((i.latitude, i.longitude))
+            folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
+            folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
+        folium.LayerControl().add_to(mapObject)
+        mapContext = mapObject._repr_html_()
+        context = {
+            'maps': mapContext,
+        }
+        return JsonResponse({'message': 'Coordinates updated successfully' , 'context': context})   
+    
+    coordinates = Coordinate.objects.filter(user_id= request.user)
     fp = coordinates.first()
     coordinate_list = []
     mapObject = folium.Map(location=[fp.latitude, fp.longitude])

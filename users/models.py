@@ -28,7 +28,7 @@ class Coordinate(models.Model):
     date_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
 
     def __str__(self):
-        return 'Coordinates at  ' + str(self.date_time)
+        return 'Coordinates of' + str(self.user_id) + 'at' + str(self.date_time)
     
 class ManagerProfile(models.Model):
     user_id = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
