@@ -4,6 +4,7 @@
 <h1 class="p-3">
     Expenses
 </h1>
+{% if request.user_role == 'employee' %}
 <form method="post">
     <div class="dflex1 d-flex w-100">
         <div class="dflex1 d-flex">
@@ -61,7 +62,12 @@
                 </tbody>
             </table>
         </div>
+        </div>
         {% endif %}
     </div>
 </div>
+{% endif %}
+{% if request.user_role == 'manager' %}
+
+{% endif %}
 {% endblock %}
