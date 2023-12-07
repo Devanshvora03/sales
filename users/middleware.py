@@ -5,7 +5,7 @@ def access_middleware(get_response):
         try:
             if request.user.is_authenticated:
                 try:
-                    if ManagerProfile.objects.filter(user=request.user).exists():
+                    if ManagerProfile.objects.filter(user_id=request.user).exists():
                         role = 'manager'
                     else:
                         role = 'employee'
