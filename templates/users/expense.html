@@ -13,7 +13,6 @@
     Expenses
 </h1>
 
-{% comment %} this is for manager {% endcomment %}
 
 <div class="m-auto w-100">
     <div class="">
@@ -31,10 +30,22 @@
                     <th scope="col"></th>
                 </tr>
                 </thead>
+                {% comment %} <tbody>
+                    <tr class="view">
+                    {% for expense in expenses %}
+                    <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ request.user }}</td>
+                    <td class="cur">123456</td>
+                    <td a href="{% url 'download-expenses-csv' %}" class="btn btn-success btn-xs">Download Expenses</div></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody> {% endcomment %}
                 <tbody>
                     <tr class="view">
                         <td></td>
-                        <td>ABC</td>
+                        <td> {{ request.user }} </td>
+                        <td>  </td>
                         <td class="cur">123456</td>
                         <td a href="{% url 'download-expenses-csv' %}" class="btn btn-success btn-xs">Download Expenses</div></a></td>
                     </tr>
