@@ -96,10 +96,9 @@ class UpdateProfileForm(forms.ModelForm):
 
 
 class ExpenseForm(forms.ModelForm):
-
     class Meta:
         model = Expense
         exclude = ('user_id',)
         widgets = {
-            'amount_details': forms.Textarea(attrs={'cols': 30, 'rows': 3})
+            'remarks': forms.Textarea(attrs={'cols': 30, 'rows': 3})
         }   
