@@ -122,9 +122,14 @@ def expense(request):
             new_expense = Expense.objects.create(
                 amount = form.cleaned_data.get('amount'),
                 currency = form.cleaned_data.get('currency'),
-                amount_details = form.cleaned_data.get('amount_details'),
+                modes=form.cleaned_data.get('modes'),
+                km=form.cleaned_data.get('km'),
+                rate=form.cleaned_data.get('rate'),
+                total_km=form.cleaned_data.get('total_km'),
+                remarks=form.cleaned_data.get('remarks'),
+                total_amount=form.cleaned_data.get('total_amount'),
                 user_id = request.user
-            )
+                )
             new_expense.save()
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')

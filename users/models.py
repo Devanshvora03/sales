@@ -15,7 +15,12 @@ class Expense(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
-    amount_details = models.TextField(blank=True, null=True,)
+    modes = models.CharField(max_length=20,null=True,)
+    km=models.IntegerField(null=True,)
+    rate = models.CharField(max_length=10,null=True,)
+    total_km=models.IntegerField(null=True,)
+    remarks=models.CharField(max_length=50,null=True,)
+    total_amount=models.IntegerField(null=True)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
 
     def __str__(self):
