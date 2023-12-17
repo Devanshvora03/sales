@@ -157,22 +157,22 @@ def download_expenses_csv(request):
     response['Content-Disposition'] = 'attachment; filename="expenses.csv"'
 
     csv_writer = csv.writer(response)
-    
+
     # Write the header row with column names
-    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Distance', 'Rate', 'Total Distance', 'Currency', ' Total Amount', 'Amount Details']
+    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Distance', 'Rate', 'Total Distance', 'Currency', 'Total Amount', 'Amount Details']
     csv_writer.writerow(header)
-    counter = 0
+
     # Write the data rows
+    counter = 0
     for expense in expenses:
         # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
         formatted_date = expense.date.strftime('%Y-%m-%d')
-        for i in expenses:
-            counter = counter + 1
-            sr_no = counter
-        print(sr_no)
-        # print(formatted_date)
+
+        # Increment the counter for each expense
+        counter += 1
+
         data_row = [
-            sr_no,
+            counter,
             formatted_date,
             expense.user_id.username,
             expense.modes,
@@ -183,8 +183,10 @@ def download_expenses_csv(request):
             expense.total_amount,
             expense.remarks,
         ]
-        # print(data_row)
         csv_writer.writerow(data_row)
+
+        if counter >= 10:
+            break
 
     return response
 
@@ -197,7 +199,6 @@ def coordinate(request):
         if form.is_valid():
             new_Coordinate = Coordinate.objects.create(
                 hospital_name = form.cleaned_data.get('hospital_name'),
-                # coordinate = form.cleaned_data.get('currency'),
                 hospital_address=form.cleaned_data.get('hospital_address'),
                 department=form.cleaned_data.get('department'),
                 user_id = request.user
