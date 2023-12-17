@@ -2,9 +2,34 @@
 {% block content %}
     <!-- Your existing profile content goes here -->
     <!-- Add the button and JavaScript code here -->
-    <div class="h-100 pt-4">
-    <div class = "d-flex justify-content-center align-items-center">
-    <button class = "btn btn-primary" id="update-coordinates-btn">Update My Coordinates</button>
+    <div class="p-3 ">
+        <div class="bg1 w-25 m-auto rounded width12 width1"  >
+            <div class="d-flex p-3 justify-content-center form-content w--rem-28" >
+                <div class="">
+        {% comment %} <div class="modal-body"> {% endcomment %}
+            <form method="post">
+                <div class="">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label }}:
+                        {{ field}}
+                        <div class="w-50 mx-2">
+                        <div class="">
+                            <label class="small mb-1"></label>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary" >
+                    Add the Expense
+                </button> 
+                <button class = "btn btn-primary" id="update-coordinates-btn">Update My Coordinates</button>
+            </form>
+        {% comment %}   </div> {% endcomment %}
+    </div>
+    </div>
     </div>
     </div>
     <script>

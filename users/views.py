@@ -181,10 +181,27 @@ def download_expenses_csv(request):
 
 
 def coordinate(request):
-    return render(request, 'users/coordinate.html')
+    user = request.user
+    form = CoordinateForm()
+    if request.method == 'POST':
+        form = CoordinateForm(request.POST)
+        if form.is_valid():
+            new_Coordinate = Coordinate.objects.create(
+                hospital_name = form.cleaned_data.get('hospital_name'),
+                # coordinate = form.cleaned_data.get('currency'),
+                hospital_address=form.cleaned_data.get('hospital_address'),
+                department=form.cleaned_data.get('department'),
+                user_id = request.user
+                )
+            new_Coordinate.save()
+            messages.success(request, 'coordinate added successfully.')
+            return redirect('/coordinate/')
+    Coordinates = Coordinate.objects.filter(user_id=user)
+    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates})
 
 @login_required(login_url='/login/')
 def update_coordinates(request):
+
     if request.method == 'POST':
         coordinates = Coordinate.objects.create(
             latitude=request.POST.get('latitude'),

@@ -27,10 +27,21 @@ class Expense(models.Model):
         return self.user_id.username + "'s expense at " + str(self.date)
     
 class Coordinate(models.Model):
+    CHOICES= [
+    ('Biomedical', 'Biomedical'),
+    ('Neuro', 'Neuro'),
+    ('ICU', 'ICU'),
+    ('cathlab', 'cathlab'),
+    ('Management', 'Management'),
+    ('purchase', 'purchase')
+    ]
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    hospital_name = models.CharField(max_length=50)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     date_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    hospital_address=models.CharField(max_length=50,null=True)
+    department = models.CharField(max_length=10,choices=CHOICES)
 
     def __str__(self):
         return 'Coordinates of' + str(self.user_id) + 'at' + str(self.date_time)
