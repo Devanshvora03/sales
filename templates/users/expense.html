@@ -9,10 +9,6 @@
 
 {% endblock %}
         
-    
-<h1 class="p-3">
-    Expenses
-</h1>
 
 {% comment %} this is for manager {% endcomment %}
 {% comment %} <div class="m-auto w-100">
@@ -71,8 +67,11 @@
                 </tbody>  {% endcomment %}
 
 
+<<<<<<< HEAD
 {% comment %} this is for user  {% endcomment %}
-<div class="m-auto w-100">
+=======
+ {% comment %} this is for user  {% endcomment %}
+ <div class="m-auto w-100">
 <div class="">
     
 <form method="post">
@@ -97,15 +96,53 @@
 <button type="submit" class="btn btn-primary" >
     Add the Expense
 </button> 
+>>>>>>> 8383a9a543b79245ffe111259e4882a9eab9e2c7
 
-</div> 
-</div>
-</form>
-<div class="">
+
+{% comment %} trial {% endcomment %}
+
 <div class="m-auto w-100">
     <div class="">
+        <div class="text-center m-4">
+                <button type="button" class="btn btn-primary m-auto" data-toggle="modal" data-target="#mymodal" >Add Your Expense </button>
+        </div>
+    <div class="jumbotron p-3">
+    <div class="container">
+        <div class="modal" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Add the Details </h2>
+
+                    </div>
+                    <div class="modal-body">
+                        <form method="post">
+                            <div class="">
+                                {% csrf_token %}
+                                {% for field in form %}
+                                <div class="form-group">
+                                    {{ field.label }}:
+                                    {{ field}}
+                                    <div class="w-50 mx-2">
+                                    <div class="">
+                                        <label class="small mb-1"></label>
+                                    </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary" >
+                                Add the Expense
+                            </button> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
         {% if expenses %}
-            <div class="jumbotron p-3">
+            
             <div class="d-flex justify-content-end mb-4">
             <h3 class="text-center m-auto">Expense List</h3> <a href="{% url 'download-expenses-csv' %}" class ="d-flex justify-content-end " > <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
 
@@ -149,13 +186,17 @@
                 </tbody>
             </table>
             </div>
+<<<<<<< HEAD
+            {% endif %}
+
+=======
         {% endif %}
-    </div>
+    </div> 
+>>>>>>> 8383a9a543b79245ffe111259e4882a9eab9e2c7
 </div>
 </div>
 </div>
 {% endblock%}
-
 
 {% block js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
