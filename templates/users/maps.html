@@ -1,26 +1,37 @@
 {% extends "users/base.html" %}
 {% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
 {% block content %}
+
 <body>
-    <div class="mt-5 container w-50 justify-content-center"> 
+    <div class="p-2 w-50">
         <form method="get" action="{% url 'maps' %}">
-            <input type="text" id = " datePicker " name="daterange" value="01/01/2018 - 01/15/2018" />
+            <input type="text" id="datePicker " name="daterange" value="01/01/2018 - 01/15/2018" />
         </form>
     </div>
-    <div class="maps">
-    <div > {{ maps | safe }} </div>
+    <div class="maps view_height-100">
+        <div> {{ maps | safe }} </div>
+    </div>
 </body>
 {% endblock %}
 {% block js %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#datePicker').daterangepicker({
-            opens: 'left'
-        }, function(start, end, label) {
-            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    $(function () {
+        $('input[name="daterange"]').daterangepicker({
+            "startDate": "12/02/2023",
+            "endDate": "12/08/2023"
+        }, function (start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
         });
 
-        $('#datePicker').on('change' , function(e){
+        $('#datePicker').on('change', function (e) {
             e.preventDefault();
             $.ajax({
                 url: "{% url 'maps' %}",
@@ -28,24 +39,25 @@
                 data: formData,
                 processData: false,
                 contentType: false,
-                success: function(data){
+                success: function (data) {
                     $("#form_errors").html("");
                     $("#form_errors").hide();
                     $("#form_success").html(data.message);
                     $("#form_success").show();
                 },
-                error: function(data){
+                error: function (data) {
                     $("#form_success").html("");
                     $("#form_success").hide();
                     $("#form_errors").html("");
                     $("#form_errors").show();
-                    $.each(data.responseJSON, function(key, value){
-                        $("#form_errors").append("<strong>"+value+"</strong>");
+                    $.each(data.responseJSON, function (key, value) {
+                        $("#form_errors").append("<strong>" + value + "</strong>");
                     });
                 }
             });
         })
     });
+    $( "div.maps" ).find( "div" ).find( "div" ).find( "div" ).css( "padding-bottom", "100vh" );
 
-  </script>
+</script>
 {% endblock %}
