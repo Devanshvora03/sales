@@ -173,3 +173,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR,"static"
 ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'neondb',
+        'USER': 'work.pparmar',
+        'PASSWORD': 'ULRBjZNG8H5Q',
+        'HOST': 'ep-muddy-heart-02228539.us-east-2.aws.neon.tech',
+        'PORT': '5432',
+    }
+}
+# ALLOWED_HOSTS = ['35.160.9.182']
