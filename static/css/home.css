@@ -35,5 +35,21 @@
         font-size: 1rem !important;
     }
 }
+   
+
+.view_height-100{
+    height: 100vh;
+}
     
-    
+.bg-color-red{
+    background-color: #fe6ea1;
+}
+.bg-color-yellow{
+    background-color: #ffb762;
+}
+.bg-color-blue{
+    background-color: #628aec;
+}
+.bg-color-green{
+    background-color: #40d4c8;
+}

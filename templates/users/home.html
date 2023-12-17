@@ -2,19 +2,51 @@
 {% load static %}
 {% block title %} Home Page {% endblock title%}
 {% block content %}
-    <div class="d-flex flex-row mt-5 justify-content-between">
-        <div class="mt-5 ml-5">
-        <div class="ml-5 mt-5">
-        <h1 class="display-3">Welcome, {{user.first_name.title|default:'Guest'}}</h1>
-        <p class="lead">
-            {% lorem 1 b random %}
-        </p>
-        </div>
-        </div>
-        <div class="img-fluid float-right mr-5" >
-            <div class="mr-5">
-        <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
+<div class="d-flex flex-row mt-5 justify-content-between">
+    <div class="ml-5">
+        <span >
+            <h1 class="display-3">Welcome, {{user.first_name.title|default:'Guest'}}</h1>
+        </span>
+        <div class="container mt-5 mx-5">
+            <div class="row w-75">
+                <div class="card col m-2 bg-color-red p-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p> -->
+                    </div>
+                </div>
+                <div class="card col m-2 bg-color-yellow p-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p> -->
+                    </div>
+                </div>
+                </div>
+                <div class="row w-75">
+                    
+                <div class="card col m-2 bg-color-green p-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p> -->
+                    </div>
+                </div>
+                <div class="card col m-2 bg-color-blue p-5">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p> -->
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="img-fluid float-right mr-5">
+        <span class="mr-5">
+            <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
+        </span>
     </div>
+</div>
 {% endblock content %}
