@@ -17,7 +17,7 @@ class Expense(models.Model):
     # amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
     modes = models.CharField(max_length=20,null=True,)
-    km=models.IntegerField(null=True,)
+    # km=models.IntegerField(null=True,)
     rate = models.CharField(max_length=10,null=True, default = 3.5)
     total_km=models.IntegerField(null=True,)
     remarks=models.CharField(max_length=50,null=True,)

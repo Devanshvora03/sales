@@ -123,7 +123,7 @@ def expense(request):
                 # amount = form.cleaned_data.get('amount'),
                 currency = form.cleaned_data.get('currency'),
                 modes=form.cleaned_data.get('modes'),
-                km=form.cleaned_data.get('km'),
+                # km=form.cleaned_data.get('km'),
                 rate=form.cleaned_data.get('rate'),
                 total_km=form.cleaned_data.get('total_km'),
                 remarks=form.cleaned_data.get('remarks'),
@@ -159,7 +159,7 @@ def download_expenses_csv(request):
     csv_writer = csv.writer(response)
 
     # Write the header row with column names
-    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Distance', 'Rate', 'Total Distance', 'Currency', 'Total Amount', 'Amount Details']
+    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Rate', 'Total Distance', 'Currency', 'Total Amount', 'Amount Details']
     csv_writer.writerow(header)
 
     # Write the data rows
@@ -176,7 +176,6 @@ def download_expenses_csv(request):
             formatted_date,
             expense.user_id.username,
             expense.modes,
-            expense.km,
             expense.rate,
             expense.total_km,
             expense.currency, 
