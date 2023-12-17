@@ -161,14 +161,16 @@ def download_expenses_csv(request):
     # Write the header row with column names
     header = ['Sr.no.', 'Date', 'User', 'Mode', 'Distance', 'Rate', 'Total Distance', 'Currency', ' Total Amount', 'Amount Details']
     csv_writer.writerow(header)
-
+    counter = 0
     # Write the data rows
     for expense in expenses:
         # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
         formatted_date = expense.date.strftime('%Y-%m-%d')
-        sr_no=1
-
-        print(formatted_date)
+        for i in expenses:
+            counter = counter + 1
+            sr_no = counter
+        print(sr_no)
+        # print(formatted_date)
         data_row = [
             sr_no,
             formatted_date,
@@ -181,7 +183,7 @@ def download_expenses_csv(request):
             expense.total_amount,
             expense.remarks,
         ]
-        print(data_row)
+        # print(data_row)
         csv_writer.writerow(data_row)
 
     return response

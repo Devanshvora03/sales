@@ -23,6 +23,7 @@ class Expense(models.Model):
     remarks=models.CharField(max_length=50,null=True,)
     total_amount=models.IntegerField(null=True)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
+    # image = models.ImageField()
 
     def __str__(self):
         return self.user_id.username + "'s expense at " + str(self.date)
