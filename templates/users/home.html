@@ -2,19 +2,16 @@
 {% load static %}
 {% block title %} Home Page {% endblock title%}
 {% block content %}
-    <div class="d-flex flex-row mt-5 justify-content-between">
-        <div class="mt-5 ml-5">
-        <div class="ml-5 mt-5">
-        <h1 class="display-3">Welcome, {{user.first_name.title|default:'Guest'}}</h1>
-        <p class="lead">
-            {% lorem 1 b random %}
-        </p>
-        </div>
-        </div>
-        <div class="img-fluid float-right mr-5" >
-            <div class="mr-5">
-        <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
-        </div>
+
+<div class="content">
+    <div class="content1">
+    <div class="d-flex flex-row mt-5 justify-content-between w-100">
+        <h1 class="display-3 ml-4 mt-4 ">Welcome, {{request.user|default:'Guest'}}</h1>
+    </div> 
     </div>
-    </div>
+        <div class="img-fluid float-right mr-5 d-flex" >
+            <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
+        </div>
+</div>
+  
 {% endblock content %}
