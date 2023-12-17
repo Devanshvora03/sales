@@ -28,10 +28,7 @@
                     <th scope="col"></th>
                     <th scope="col">Employee Name</th>
                     <th scope="col">EmployeeID</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
+                    <!-- <th scope="col"></th> -->
                     <th scope="col"></th>
                 </tr>
                 </thead>
@@ -39,10 +36,10 @@
                     <tr class="view">
                         <td></td>
                         <td> {{ request.user }} </td>
+                        <td>  </td>
                         <td class="cur">123456</td>
-                        <td></td>
-                    
-                        <td a href="{% url 'download-expenses-csv' %}" class="btn btn-success position-absolute top-0 end-0 ">Download Expenses</div></a></td>
+                        <!-- <td class="cur"></td> -->
+                        <td a href="{% url 'download-expenses-csv' %}" class="btn btn-success btn-xs">Download Expenses</div></a></td>
                     </tr>
                     <tr class="fold">
                         <td colspan="7">
@@ -71,11 +68,11 @@
                         </div>
                         </td>
                     </tr>
-                </tbody> {% endcomment %}
+                </tbody>  {% endcomment %}
 
 
- {% comment %} this is for user  {% endcomment %}
- <div class="m-auto w-100">
+{% comment %} this is for user  {% endcomment %}
+<div class="m-auto w-100">
 <div class="">
     
 <form method="post">
@@ -153,7 +150,7 @@
             </table>
             </div>
         {% endif %}
-    </div> 
+    </div>
 </div>
 </div>
 </div>
