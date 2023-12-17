@@ -120,7 +120,7 @@ def expense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             new_expense = Expense.objects.create(
-                amount = form.cleaned_data.get('amount'),
+                # amount = form.cleaned_data.get('amount'),
                 currency = form.cleaned_data.get('currency'),
                 modes=form.cleaned_data.get('modes'),
                 km=form.cleaned_data.get('km'),
@@ -159,20 +159,27 @@ def download_expenses_csv(request):
     csv_writer = csv.writer(response)
     
     # Write the header row with column names
-    header = ['User', 'Amount', 'Currency', 'Amount Details', 'Date']
+    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Distance', 'Rate', 'Total Distance', 'Currency', ' Total Amount', 'Amount Details']
     csv_writer.writerow(header)
 
     # Write the data rows
     for expense in expenses:
         # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
         formatted_date = expense.date.strftime('%Y-%m-%d')
+        sr_no=1
+
         print(formatted_date)
         data_row = [
+            sr_no,
+            formatted_date,
             expense.user_id.username,
-            expense.amount,
-            expense.currency,
-            expense.amount_details,
-            formatted_date,  # Include the formatted date in the data row
+            expense.modes,
+            expense.km,
+            expense.rate,
+            expense.total_km,
+            expense.currency, 
+            expense.total_amount,
+            expense.remarks,
         ]
         print(data_row)
         csv_writer.writerow(data_row)
