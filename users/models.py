@@ -46,11 +46,21 @@ class Hospital(models.Model):
     
 
 class Coordinate(models.Model):
+    CHOICES= [
+    ('Biomedical', 'Biomedical'),
+    ('Neuro', 'Neuro'),
+    ('ICU', 'ICU'),
+    ('cathlab', 'cathlab'),
+    ('Management', 'Management'),
+    ('purchase', 'purchase')
+    ]
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    person = models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+    hospital_name = models.CharField(max_length=50)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     date_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    hospital_address=models.CharField(max_length=50,null=True)
+    department = models.CharField(max_length=10,choices=CHOICES)
     product  = models.CharField(max_length=50, null=True)
     outcome = models.CharField(max_length=50, null=True)
 
