@@ -1,5 +1,7 @@
 {% extends "users/base.html" %}
 {% block content %}
+{% load tags %}
+
     <!-- Your existing profile content goes here -->
     <!-- Add the button and JavaScript code here -->
     <div class="p-3 ">
@@ -13,12 +15,8 @@
                     {% for field in form %}
                     <div class="form-group">
                         {{ field.label }}:
-                        {{ field}}
-                        <div class="w-50 mx-2">
-                        <div class="">
-                            <label class="small mb-1"></label>
-                        </div>
-                        </div>
+                        {{field |add_class:"form-control"}} 
+                    
                     </div>
                     {% endfor %}
                 </div>

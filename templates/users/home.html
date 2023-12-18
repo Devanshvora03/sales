@@ -9,9 +9,9 @@
         <h1 class="display-3 ml-4 mt-4 ">Welcome, {{request.user|default:'Guest'}}</h1>
     </div> 
     </div>
-        <div class="img-fluid float-right mr-5 d-flex" >
+        {% comment %} <div class="img-fluid float-right mr-5 d-flex" >
             <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
-        </div>
+        </div> {% endcomment %}
 </div>
   
 {% endblock content %}

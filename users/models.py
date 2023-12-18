@@ -14,14 +14,12 @@ class Profile(models.Model):
 
 class Expense(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    # amount = models.CharField(max_length=10)
-    currency = models.CharField(max_length=10, default="INR")
-    modes = models.CharField(max_length=20,null=True,)
     km=models.IntegerField(null=True,)
-    rate = models.CharField(max_length=10,null=True, default = 3.5)
+    modes = models.CharField(max_length=20,null=True,)
+    rate = models.CharField(max_length=10,null=True, default = 3.5,)
+    total_amount=models.IntegerField(null=True)
     total_km=models.IntegerField(null=True,)
     remarks=models.CharField(max_length=50,null=True,)
-    total_amount=models.IntegerField(null=True)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
 
     def __str__(self):

@@ -100,7 +100,8 @@ class ExpenseForm(forms.ModelForm):
         model = Expense
         exclude = ('user_id',)
         widgets = {
-            'remarks': forms.Textarea(attrs={'cols': 30, 'rows': 3})
+            # 'remarks': forms.CharField(attrs={'cols': 35, 'rows': 3,})
+            
         }  
 
 class CoordinateForm(forms.ModelForm):
