@@ -2,16 +2,12 @@
 {% load static %}
 {% block title %} Home Page {% endblock title%}
 {% block content %}
-
-<div class="content">
+<section class="content ">
     <div class="content1">
-    <div class="d-flex flex-row mt-5 justify-content-between w-100">
-        <h1 class="display-3 ml-4 mt-4 ">Welcome, {{request.user|default:'Guest'}}</h1>
+    <div class="d-flex flex-row justify-content-center width-100vw">
+        <div class="raleway head1">Welcome, <span>{{request.user|default:'Guest'}}</span></div>
     </div> 
-    </div>
-        <div class="img-fluid float-right mr-5 d-flex" >
-            <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
-        </div>
 </div>
-  
+</section>
+
 {% endblock content %}
