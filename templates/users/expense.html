@@ -91,7 +91,12 @@
                                 {% for field in form %}
                                 <div class="form-group" >
                                     {{ field.label }}:
-                                    <br>{{ field}}</br>
+                                    {{ field }}
+                                    <div class="w-50 mx-2">
+                                    <div class="">
+                                        <label class="small mb-1"></label>
+                                    </div>
+                                    </div>
                                 </div>
                                 {% endfor %}
                             
@@ -117,7 +122,6 @@
                     <th scope="col">#</th>
                     <th scope="col">Date</th>
                     <th scope="col">Mode</th>
-                    <th scope="col">Distance</th>
                     <th scope="col">Rate</th>
                     <th scope="col">Total Distance</th>
                     <th scope="col">From</th>
@@ -133,13 +137,12 @@
                         <th scope="row">{{ forloop.counter }}</th>
                         <td class="">{{ expense.date }}</td>
                         <td class="">{{ expense.modes }}</td>
-                        <td class="">{{ expense.km }}</td>
                         <td class="">{{ expense.rate }}</td>
                         <td class="">{{ expense.total_km }}</td>
                         <td class=""></td>
                         <td class=""></td>
                         <td class="">{{ expense.total_amount }}</td>
-                        <td class="">{{ expense.ramarks }}</td>
+                        <td class="">{{ expense.remarks }}</td>
                         <td class="">
                             <form method="post" action="{% url 'delete-expense' expense.id %}">
                                 {% csrf_token %}

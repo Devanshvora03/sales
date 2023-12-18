@@ -2,16 +2,24 @@
 {% load static %}
 {% block title %} Home Page {% endblock title%}
 {% block content %}
-
-<div class="content">
+<section class="content ">
     <div class="content1">
-    <div class="d-flex flex-row mt-5 justify-content-between w-100">
-        <h1 class="display-3 ml-4 mt-4 ">Welcome, {{request.user|default:'Guest'}}</h1>
+    <div class="d-flex flex-row justify-content-center width-100vw">
+        <div class="raleway head1">Welcome, <span>{{request.user|default:'Guest'}}</span></div>
     </div> 
+    <div class="d-flex flex-wrap align-content-between justify-content-around">
+        <div class="box-1 ">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est placeat, provident molestiae iste adipisci expedita? ptatem nesciunt eaque?</div>
+        <div class="box-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est placeat, provident molestiae iste adipisci expedita? </div>
+        <div class="box-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est placeat, provident molestiae iste adipisci expedita? esciunt!</div>
+        <div class="box-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Est placeat, provident molestiae iste adipisci expedita? tinctio illo dicta?</div>
     </div>
+<<<<<<< HEAD
         {% comment %} <div class="img-fluid float-right mr-5 d-flex" >
             <img src="{% static 'img/home.jpg' %}" alt="sales" style="width:35rem; height:auto">
         </div> {% endcomment %}
+=======
+>>>>>>> 4b36b1585da2a7267fcb86a7eed55acb3e99e352
 </div>
-  
+</section>
+
 {% endblock content %}

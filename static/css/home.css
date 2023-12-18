@@ -1,3 +1,5 @@
+/* {% load static %} */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Scada:ital@1&display=swap');
 @media screen and (max-width:1320px){
     .dflex1{
             display: inline!important;
@@ -5,6 +7,9 @@
     .margin1{
         margin: 2rem 0.1rem !important;
     }
+}
+body{
+    overflow-x: hidden;
 }
 .bg1{
     background-color: #f0f5f5!important
@@ -16,6 +21,122 @@
 .width{
     width: 30%;
 }
+.content{
+    background-image: url("../img/home.png");
+    background-size: cover;
+    height: 92.5vh;
+    overflow-x: hidden;
+    position: relative !important;
+}
+.content::before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(56, 64, 70, 0.7);
+    z-index: 2;
+}
+.content1{
+    position: absolute;
+    opacity: 1;
+    z-index: 2;
+}
+.raleway{
+    font-family: 'Raleway', sans-serif;
+    color: #ffffff;
+    /* font-family: 'Scada', sans-serif; */
+}
+
+.head1{
+    font-size: 400%;
+    margin: 10rem;
+}
+
+.width-100vw{
+    width: 100vw;
+}
+
+.box-1{
+    border: 2px solid #f0f5f5;
+    width: 20rem;
+    height: 10rem;
+    margin-bottom: 20px;
+
+}
+@media (max-width: 575.98px) { 
+    .head1{
+        font-size: 300%;
+        margin: 7rem;
+    }
+    .box-1{
+        border: 2px solid #f0f5f5;
+        width: 10rem;
+        height: 10rem;
+        margin-bottom: 20px;
+    }
+    .content{
+        height: 94.8vh;
+    }
+    .content::before{
+        height: 130%;
+    }
+}
+@media (min-width: 576px) and (max-width: 768px) { 
+    .head1{
+        font-size: 350%;
+        margin: 5rem;
+    }
+    .box-1{
+        border: 2px solid #f0f5f5;
+        width: 20rem;
+        height: 10rem;
+        margin-bottom: 20px;
+    
+    }
+    .content{
+        height: 94.8vh;
+    }
+    .content::before{
+        height: 130%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) { 
+    .head1{
+        font-size: 350%;
+        margin: 5rem;
+    }
+    .box-1{
+        border: 2px solid #f0f5f5;
+        width: 20rem;
+        height: 10rem;
+        margin-bottom: 20px;
+    
+    }
+    .content{
+        height: 94.8vh;
+    }
+ }
+
+ @media (min-width: 992px) and (max-width: 1199.98px) { 
+    .head1{
+        font-size: 400%;
+        margin: 4.5rem;
+    }
+    .box-1{
+        border: 2px solid #f0f5f5;
+        width: 20rem;
+        height: 10rem;
+        margin-bottom: 20px;
+    
+    }
+    .content{
+        height: 92.6vh;
+    }
+  }
 
 @media screen and (max-width:1320px){
     .dflex12{

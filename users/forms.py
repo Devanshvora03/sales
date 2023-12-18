@@ -108,6 +108,6 @@ class CoordinateForm(forms.ModelForm):
     class Meta:
         model = Coordinate
         exclude = ('user_id',)
-        widgets = {
-            'hospital_address': forms.Textarea(attrs={'cols': 30, 'rows': 3})
-        }
+        # widgets = {
+        #     'hospital_address': forms.Textarea(attrs={'cols': 30, 'rows': 3})
+        # }
