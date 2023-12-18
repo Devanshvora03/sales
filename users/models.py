@@ -17,20 +17,34 @@ class Expense(models.Model):
     # amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
     modes = models.CharField(max_length=20,null=True,)
-    km=models.IntegerField(null=True,)
+    # km=models.IntegerField(null=True,)
     rate = models.CharField(max_length=10,null=True, default = 3.5)
     total_km=models.IntegerField(null=True,)
     remarks=models.CharField(max_length=50,null=True,)
     total_amount=models.IntegerField(null=True)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
+    # image = models.ImageField()
 
     def __str__(self):
         return self.user_id.username + "'s expense at " + str(self.date)
     
 
 class Person(models.Model):
+    CHOICES= [
+    ('Biomedical', 'Biomedical'),
+    ('Neuro', 'Neuro'),
+    ('Management', 'Management'),
+    ('Purchase', 'Purchase'),
+    ('Arterial Bloog Gas Analysis', 'Arterial Bloog Gas Analysis'),
+    ('Emergency Testing', 'Emergency Testing'),
+    ('Semen Analysis', 'Semen Analysis'),
+    ('HbA1C Testing', 'HbA1C Testing'),
+    ('Neuro Surgicals', 'Neuro Surgicals'),
+    ('Surgical Microscopy', 'Surgical Microscopy'),
+    ('Autoimmune Testing', 'Autoimmune Testing'),
+    ]
     name = models.CharField(max_length=25, null=True)
-    dept = models.CharField(max_length=20, null=True)
+    department = models.CharField(max_length=50,choices=CHOICES, blank=True, null=True)
 
     def __str__(self):
             return self.name
@@ -39,32 +53,28 @@ class Person(models.Model):
 class Hospital(models.Model):
     hospital_name = models.CharField(max_length=50, null=True)
     hospital_address = models.CharField(max_length=150, null=True)
-    
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    staff = models.ManyToManyField(Person)
+
     def __str__(self):
         return self.name
     
 
 class Coordinate(models.Model):
-    CHOICES= [
-    ('Biomedical', 'Biomedical'),
-    ('Neuro', 'Neuro'),
-    ('ICU', 'ICU'),
-    ('cathlab', 'cathlab'),
-    ('Management', 'Management'),
-    ('purchase', 'purchase')
-    ]
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    hospital_name = models.CharField(max_length=50)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     date_time = models.DateTimeField(blank=True, null=True, auto_now_add=True)
-    hospital_address=models.CharField(max_length=50,null=True)
-    department = models.CharField(max_length=10,choices=CHOICES)
-    product  = models.CharField(max_length=50, null=True)
-    outcome = models.CharField(max_length=50, null=True)
+    
+    person_name =  models.ForeignKey(Person, on_delete=models.CASCADE, blank=True, null=True)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, blank=True, null=True)
+    
+    product  = models.TextField(blank=True, null=True)
+    outcome = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return 'Coordinates of' + str(self.user_id) + 'at' + str(self.date_time)
+        return 'Coordinates of ' + str(self.user_id) + 'at' + str(self.date_time)
 
 
 class ManagerProfile(models.Model):
