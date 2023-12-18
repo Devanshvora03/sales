@@ -120,23 +120,14 @@ def expense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             new_expense = Expense.objects.create(
-<<<<<<< HEAD
+
                 modes=form.cleaned_data.get('Modes'),
                 km=form.cleaned_data.get('Kilometers'),
                 rate=form.cleaned_data.get('Rates'),
                 total_km=form.cleaned_data.get('Total Kilometer'),
                 remarks=form.cleaned_data.get('Amount Details'),
                 total_amount=form.cleaned_data.get('Amount'),
-=======
-                # amount = form.cleaned_data.get('amount'),
-                currency = form.cleaned_data.get('currency'),
-                modes=form.cleaned_data.get('modes'),
-                # km=form.cleaned_data.get('km'),
-                rate=form.cleaned_data.get('rate'),
-                total_km=form.cleaned_data.get('total_km'),
-                remarks=form.cleaned_data.get('remarks'),
-                total_amount=form.cleaned_data.get('total_amount'),
->>>>>>> 4b36b1585da2a7267fcb86a7eed55acb3e99e352
+
                 user_id = request.user
                 )
             new_expense.save()
