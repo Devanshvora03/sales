@@ -64,6 +64,7 @@ body{
 }
 
 .box-1{
+    padding: 2% 4%;
     border: 2px solid #f0f5f5;
     width: 40rem;
     height: 15rem;
