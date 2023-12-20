@@ -102,9 +102,11 @@
 
         {% if expenses %}
             
-            <div class="d-flex justify-content-end mb-4">
-            <h3 class="text-center m-auto">Expense List</h3> <a href="{% url 'download-expenses-csv' %}" class ="d-flex justify-content-end " > <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
-
+        <h3 class="text-center m-auto">Expense List</h3> 
+            <div class="d-flex justify-content-end my-4 title2">    
+            <a href="{% url 'download-expenses-csv' %}"> <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
+            <div class="container2">
+        <div class="content2">
             <table class="table mx-auto" style="word-break: break-word;">
                 <thead class="table-secondary">
                 <tr>
@@ -142,6 +144,8 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        </div>
             </div>
             {% endif %}
 

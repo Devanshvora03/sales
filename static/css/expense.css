@@ -10,6 +10,32 @@
 /* body {
   padding: 0.2em 2em;
 } */
+@media (max-width: 1199.98px) { 
+  .container2{
+    width: 100%; 
+    margin: 0 auto;
+    overflow-x: auto!important;
+    white-space: nowrap;
+  }
+  
+  .content2{
+    width: 1400px;  
+  }
+  
+  .content2 div {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+  }
+  .title2{
+    justify-content: center!important;
+  }
+}
+
+.width-72{
+  width: 11%;
+}
 .pad-2 {
   padding: 0.2em 2em;
 }
@@ -88,9 +114,9 @@ table.fold-table > tbody > tr.fold.open {
   padding: 2rem!important;
 }
 
-.form-group{
+/* .form-group{
  
-}
+} */
 
 .border1{
   border-radius: 15px;
