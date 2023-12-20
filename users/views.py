@@ -194,19 +194,30 @@ def coordinate(request):
     user = request.user
     form = CoordinateForm()
     if request.method == 'POST':
-        form = CoordinateForm(request.POST)
-        if form.is_valid():
-            new_Coordinate = Coordinate.objects.create(
-                # hospital_name = form.cleaned_data.get('hospital_name'),
-                # hospital_address=form.cleaned_data.get('hospital_address'),
-                # department=form.cleaned_data.get('department'),
-                user_id = request.user
-                )
-            new_Coordinate.save()
-            messages.success(request, 'coordinate added successfully.')
-            return redirect('/coordinate/')
+        department = request.POST.get('department')
+        hospital_id = request.POST.get('hospital_id')
+        person = request.POST.get('person')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        person_obj = Person.objects.get_or_create(name = person , department = department)
+        hospital_obj = Hospital.objects.get(hospital_id = hospital_id)
+        product_obj = request.POST.get('product')
+        outcome_obj = request.POST.get('outcome')
+        new_Coordinate = Coordinate.objects.create(
+            user_id = request.user,
+            latitude = latitude,
+            longitude = longitude,
+            person_name = person_obj,
+            hospital = hospital_obj,
+            product = product_obj,
+            outcome = outcome_obj
+            )   
+        new_Coordinate.save()
+        messages.success(request, 'coordinate added successfully.')
+        return redirect('/coordinate/')
+    hospitals = Hospital.objects.all()
     Coordinates = Coordinate.objects.filter(user_id=user)
-    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates})
+    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals})
 
 @login_required(login_url='/login/')
 def update_coordinates(request):
