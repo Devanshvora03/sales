@@ -68,10 +68,7 @@
 
 
 {% comment %} this is for user  {% endcomment %}
-
-
 {% comment %} trial {% endcomment %}
-
 <div class="m-auto w-100 pad-2">
     <div class="">
         <div class="text-center m-4">
@@ -91,15 +88,9 @@
                                 {% for field in form %}
                                 <div class="form-group" >
                                     {{ field.label }}:
-                                    {{ field }}
-                                    <div class="w-50 mx-2">
-                                    <div class="">
-                                        <label class="small mb-1"></label>
-                                    </div>
-                                    </div>
+                                    <br>{{ field }} </br>
                                 </div>
                                 {% endfor %}
-                            
                             <button type="submit" class="btn btn-primary mt-3" >
                                 Add the Expense
                             </button> 
@@ -126,7 +117,7 @@
                     <th scope="col">Total Distance</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
-                    <th scope="col">Amount</th>
+                    <th scope="col">Total Amount</th>
                     <th scope="col">Remarks</th>
                     <th scope="col"></th>
                 </tr>
