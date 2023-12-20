@@ -98,10 +98,9 @@ class UpdateProfileForm(forms.ModelForm):
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
-        exclude = ('user_id',)
+        exclude = ('user_id', 'total_amount')
         widgets = {
             # 'remarks': forms.CharField(attrs={'cols': 35, 'rows': 3,})
-            
         }  
 
 class CoordinateForm(forms.ModelForm):

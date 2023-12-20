@@ -127,10 +127,12 @@ def expense(request):
                 rate=form.cleaned_data.get('rate'),
                 total_km=form.cleaned_data.get('total_km'),
                 remarks=form.cleaned_data.get('remarks'),
-                total_amount=form.cleaned_data.get('total_amount'),
+                image=request.POST.get('image'),
                 user_id = request.user
                 )
+            new_expense.total_amount = float(new_expense.rate) * float(new_expense.total_km)
             new_expense.save()
+            print(request.FILES)
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
@@ -212,7 +214,7 @@ def coordinate(request):
             product = product_obj,
             outcome = outcome_obj
             )   
-        new_Coordinate.save()
+        new_Coordinate.sav()
         messages.success(request, 'coordinate added successfully.')
         return redirect('/coordinate/')
     hospitals = Hospital.objects.all()

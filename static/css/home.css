@@ -52,7 +52,11 @@ body{
 
 .head1{
     font-size: 400%;
-    margin: 10rem;
+    margin-top: 8rem;
+}
+.head2{
+    font-size: 200%;
+    margin-bottom: 7rem;
 }
 
 .width-100vw{
@@ -60,40 +64,60 @@ body{
 }
 
 .box-1{
+    padding: 2% 4%;
     border: 2px solid #f0f5f5;
-    width: 20rem;
-    height: 10rem;
-    margin-bottom: 20px;
+    width: 40rem;
+    height: 15rem;
+}
+.hover1 :hover{
+    .box-1{
+        background-color:#434343;
+    }
+    text-decoration: none;
+}
 
+.box-1 img{
+    width:  10%;
 }
 @media (max-width: 575.98px) { 
     .head1{
-        font-size: 300%;
-        margin: 7rem;
+        font-size: 200%;
+        margin-top: 7rem;
+    }
+    .head2{
+        font-size: 100%;
+        margin-bottom: 7rem;
     }
     .box-1{
         border: 2px solid #f0f5f5;
-        width: 10rem;
-        height: 10rem;
-        margin-bottom: 20px;
+         width: 90%;
+        height: 40%;
+        margin: 20px;
     }
     .content{
         height: 94.8vh;
     }
     .content::before{
-        height: 130%;
+        height: 150%;
+    }
+    .hover1{
+        display: block!important;
     }
 }
 @media (min-width: 576px) and (max-width: 768px) { 
     .head1{
-        font-size: 350%;
-        margin: 5rem;
+        font-size: 250%;
+        margin-top: 7rem;
+    }
+    .head2{
+        font-size: 150%;
+        margin-bottom: 7rem;
     }
     .box-1{
         border: 2px solid #f0f5f5;
-        width: 20rem;
-        height: 10rem;
-        margin-bottom: 20px;
+        width: 90%;
+        height: 40%;
+        margin: 30px;
     
     }
     .content{
@@ -101,40 +125,57 @@ body{
     }
     .content::before{
         height: 130%;
+    }
+    .hover1{
+        display: block!important;
     }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) { 
     .head1{
         font-size: 350%;
-        margin: 5rem;
+        margin-top: 7rem;
+    }
+    .head2{
+        font-size: 150%;
+        margin-bottom: 7rem;
     }
     .box-1{
         border: 2px solid #f0f5f5;
-        width: 20rem;
-        height: 10rem;
-        margin-bottom: 20px;
+        width: 24rem;
+        height: 80%;
+        margin: 15px;
     
     }
     .content{
-        height: 94.8vh;
+        height: 95.6vh;
+    }
+    .hover1{
+        display: flex!important;
     }
  }
 
  @media (min-width: 992px) and (max-width: 1199.98px) { 
     .head1{
         font-size: 400%;
-        margin: 4.5rem;
+        margin-top: 7rem;
+    }
+    .head2{
+        font-size: 150%;
+        margin-bottom: 7rem;
     }
     .box-1{
         border: 2px solid #f0f5f5;
-        width: 20rem;
-        height: 10rem;
-        margin-bottom: 20px;
+        width: 35rem;
+        height: 15rem;
+        margin-bottom: 30px;
     
     }
+    .content::before{
+        height: 100%;
+    }
     .content{
-        height: 92.6vh;
+        height: 95.6vh;
     }
   }
 
@@ -160,4 +201,3 @@ body{
 .btn-primary{
     box-shadow: 1px 2px 5px #00000085;
 }
-
