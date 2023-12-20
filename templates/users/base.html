@@ -18,7 +18,7 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js"></script>
 
-
+    
   {% block css %} {% endblock %}
 </head>
 <body>
@@ -39,7 +39,7 @@
                     <a href="{% url 'users-profile' %}" class="nav-item nav-link mr-2">Profile</a>
                     <a href="{% url 'logout' %}" button class="nav-item nav-link btn btn-primary text-light pt-1 ">Logout</a>
                   {% else %}
-                    <a href="{% url 'login' %}"button class="nav-item nav-link btn btn-primary text-light pt-1">Sign in</a>
+                    <a href="{% url 'login' %}" button class="nav-item nav-link btn btn-primary text-light pt-1">Sign in</a>
                   {% endif %}
                 </div>
             </div>
