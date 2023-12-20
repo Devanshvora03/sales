@@ -66,14 +66,17 @@ body{
 .box-1{
     padding: 2% 4%;
     border: 2px solid #f0f5f5;
-    width: 40rem;
+    width: 41rem;
     height: 15rem;
+    box-shadow: 1px 2px 5px #000;
 }
 .hover1 :hover{
-    .box-1{
-        background-color:#434343;
+    
+    .maps,.expense{
+        color:  #007bff;
     }
     text-decoration: none;
+    
 }
 
 .box-1 img{
@@ -200,4 +203,14 @@ body{
     
 .btn-primary{
     box-shadow: 1px 2px 5px #00000085;
+}
+
+.navbar{
+  
+   
+}
+.navbar :hover{
+       
+        color:  #007bff!important;
+        
 }

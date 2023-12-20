@@ -8,7 +8,7 @@
         <div class="bg1 w-25 m-auto rounded width12 width1"  >
             <div class=" p-3 form-content w--rem-28" >
                 <div class="">
-                    <form method="post">
+                    <form id = 'expanseForm'>
                         {% csrf_token %}
                         <div class="">
                             <!-- Fields from Django form -->
@@ -68,27 +68,36 @@
 
                     $('#latitude').val(latitude)
                     $('#longitude').val(longitude)
-
-                    /*fetch('/update-coordinates/', {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: `latitude=${latitude}&longitude=${longitude}`,
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message === 'Coordinates updated successfully') {
-                            alert('Coordinates updated successfully');
-                        } else {
-                            alert('Failed to update coordinates');
-                        }
-                    }); */
                 });
             } else {
                 alert('Geolocation is not available in your browser.');
             }
         });
+        $('id_hospital_name').on('change', function(){
+            hospital_id = $(this).val();
+            $.ajax({
+                url: "{% url 'get_persons' %}",
+                type: 'GET',
+                data: {
+                    'hospital_id': hospital_id
+                },
+                success: function(response){
+                    $('#id_person_name').html(response)
+                }
+            })
+        })
+        $('#expanseForm').on('submit',function(){
+            e.preventDefault();
+            form = this;
+            formdata = form.serialize();
+            $.ajax({
+                url: "{% url 'coordinate' %}",
+                type: 'POST',
+                data: formdata,
+                success: function(response){
+                    console.log(response)
+                }
+            })
+        })
     </script>
 {% endblock %}
