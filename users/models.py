@@ -18,11 +18,12 @@ class Expense(models.Model):
     currency = models.CharField(max_length=10, default="INR")
     modes = models.CharField(max_length=20,null=True,)
     # km=models.IntegerField(null=True,)
+    total_amount =models.IntegerField(null=True,)
     rate = models.CharField(max_length=10,null=True, default = 3.5)
     total_km=models.IntegerField(null=True,)
     remarks=models.CharField(max_length=50,null=True,)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
-    # image = models.ImageField()
+    image = models.ImageField(upload_to='Expenses', blank=True, null=True)
 
     def __str__(self):
         return self.user_id.username + "'s expense at " + str(self.date)
