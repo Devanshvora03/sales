@@ -22,7 +22,7 @@
                             <label for="id_hospital_name">Hospital:</label>
                         <select name="hospital_name" id="id_hospital_name" class="form-control">
                             {% for h in hospitals %}
-                                <option value="{{ h.id }}">{{ h.name }}</option>
+                                <option value="{{ h.id }}">{{ h.hospital_name }}</option>
                             {% endfor %}
                         </select>
                         </div>
@@ -73,7 +73,7 @@
                 alert('Geolocation is not available in your browser.');
             }
         });
-        $('id_hospital_name').on('change', function(){
+        {% comment %} $('id_hospital_name').on('change', function(){
             hospital_id = $(this).val();
             $.ajax({
                 url: "{% url 'get_persons' %}",
@@ -85,7 +85,7 @@
                     $('#id_person_name').html(response)
                 }
             })
-        })
+        }) {% endcomment %}
         $('#expanseForm').on('submit',function(){
             e.preventDefault();
             form = this;
