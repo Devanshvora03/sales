@@ -197,9 +197,9 @@ def coordinate(request):
         form = CoordinateForm(request.POST)
         if form.is_valid():
             new_Coordinate = Coordinate.objects.create(
-                hospital_name = form.cleaned_data.get('hospital_name'),
-                hospital_address=form.cleaned_data.get('hospital_address'),
-                department=form.cleaned_data.get('department'),
+                # hospital_name = form.cleaned_data.get('hospital_name'),
+                # hospital_address=form.cleaned_data.get('hospital_address'),
+                # department=form.cleaned_data.get('department'),
                 user_id = request.user
                 )
             new_Coordinate.save()

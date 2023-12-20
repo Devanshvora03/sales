@@ -21,7 +21,6 @@ class Expense(models.Model):
     rate = models.CharField(max_length=10,null=True, default = 3.5)
     total_km=models.IntegerField(null=True,)
     remarks=models.CharField(max_length=50,null=True,)
-    total_amount=models.IntegerField(null=True)
     date = models.DateField(auto_now_add=True, blank=True, null=True,)
     # image = models.ImageField()
 

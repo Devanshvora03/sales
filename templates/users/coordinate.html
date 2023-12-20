@@ -1,66 +1,95 @@
 {% extends "users/base.html" %}
 {% block content %}
+{% load tags %}
+
     <!-- Your existing profile content goes here -->
     <!-- Add the button and JavaScript code here -->
     <div class="p-3 ">
         <div class="bg1 w-25 m-auto rounded width12 width1"  >
             <div class="d-flex p-3 justify-content-center form-content w--rem-28" >
                 <div class="">
-        {% comment %} <div class="modal-body"> {% endcomment %}
-            <form method="post">
-                <div class="">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    <div class="form-group">
-                        {{ field.label }}:
-                        {{ field}}
-                        <div class="w-50 mx-2">
+                    <form method="post">
+                        {% csrf_token %}
                         <div class="">
-                            <label class="small mb-1"></label>
-                        </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <button type="submit" class="btn btn-primary" >
-                    Add the Expense
-                </button> 
-                <button class = "btn btn-primary" id="update-coordinates-btn">Update My Coordinates</button>
-            </form>
-        {% comment %}   </div> {% endcomment %}
-    </div>
-    </div>
-    </div>
-    </div>
-    
-    <script>
-    document.getElementById('update-coordinates-btn').addEventListener('click', function() {
-        if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+                            <!-- Fields from Django form -->
+                            <!-- Additional fields for Person, Hospital, and product/outcome -->
+                                <input type="hidden" name="latitude" id="latitude">
+                                <input type="hidden" name="longitude" id="longitude">
+                        <button class="btn btn-primary" id="update-coordinates-btn">Get My Coordinates</button>
 
-                fetch('/update-coordinates/', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `latitude=${latitude}&longitude=${longitude}`,
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === 'Coordinates updated successfully') {
-                        alert('Coordinates updated successfully');
-                    } else {
-                        alert('Failed to update coordinates');
-                    }
+                        <div class="form-group">
+                            <label for="id_hospital_name">Hospital:</label>
+                        <select name="hospital_name" id="id_hospital_name" class="form-control">
+                            {% for h in hospitals %}
+                                <option value="{{ h.id }}">{{ h.name }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                            <div class="form-group">
+                                <label for="id_person_name">Person Name:</label>
+                                <select name="person_name" id="id_person_name" class="form-control">
+                                    {% for person in persons %}
+                                        <option value="{{ person.id }}">{{ person.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="form-group">
+                                    <label for="id_department">Department of Person:</label>
+                                    <select name="department" id="id_department" class="form-control">
+                                        {% for choice in department_choices %}
+                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_product">Product Discussed:</label>
+                                <textarea name="product" id="id_product" class="form-control"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_outcome">Outcome:</label>
+                                <textarea name="outcome" id="id_outcome" class="form-control"></textarea>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" >
+                            Add the Expense
+                        </button> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('update-coordinates-btn').addEventListener('click', function() {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    $('#latitude').val(latitude)
+                    $('#longitude').val(longitude)
+
+                    /*fetch('/update-coordinates/', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}',  // Include CSRF token
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `latitude=${latitude}&longitude=${longitude}`,
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === 'Coordinates updated successfully') {
+                            alert('Coordinates updated successfully');
+                        } else {
+                            alert('Failed to update coordinates');
+                        }
+                    }); */
                 });
-            });
-        } else {
-            alert('Geolocation is not available in your browser.');
-        }
-    });
+            } else {
+                alert('Geolocation is not available in your browser.');
+            }
+        });
     </script>
 
 {% endblock %}

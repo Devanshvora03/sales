@@ -81,17 +81,15 @@
     <div class="container">
         <div class="modal" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Add the Details </h2>
-
-                    </div>
+                <div class="modal-content  bg1">
                     <div class="modal-body">
                         <form method="post">
-                            <div class="">
+                            <div class="border1">
+                                <h2 style="font-family: sans-serif; margin-bottom: 0.1rem">Expenses</h2>
+                                <h6 style="margin-bottom: 1.5rem" ;>Fill the data below</h6>
                                 {% csrf_token %}
                                 {% for field in form %}
-                                <div class="form-group">
+                                <div class="form-group" >
                                     {{ field.label }}:
                                     {{ field }}
                                     <div class="w-50 mx-2">
@@ -101,10 +99,11 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                            </div>
-                            <button type="submit" class="btn btn-primary" >
+                            
+                            <button type="submit" class="btn btn-primary mt-3" >
                                 Add the Expense
                             </button> 
+                        </div>
                         </form>
                     </div>
                 </div>

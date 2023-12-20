@@ -80,3 +80,41 @@ table.fold-table > tbody > tr.fold.open {
   background: #eee;
 }
 
+.modal-content{
+  background-color: #f0f5f5!important;
+}
+
+.modal-body{
+  padding: 2rem!important;
+}
+
+.form-group{
+ 
+}
+
+.border1{
+  border-radius: 15px;
+  border: 0.1px solid #000000; 
+  padding: 1.5rem!important;
+}
+
+.form-control{
+  background-color: #333;
+}
+
+input{
+  width: 80%;
+  background-color: #cecece;
+  line-height: 1.8 !important;
+  border-radius: 2%;
+  border:1px solid #ced4da;
+}
+textarea{
+  background-color: #cecece;
+  border:1px solid #ced4da;
+  border-radius: 2%;
+}
+
+.bg1{
+  background-color: #f0f5f5!important
+}
