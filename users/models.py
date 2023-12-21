@@ -58,7 +58,7 @@ class Hospital(models.Model):
     staff = models.ManyToManyField(Person)
 
     def __str__(self):
-        return self.name
+        return self.hospital_name
     
 
 class Coordinate(models.Model):

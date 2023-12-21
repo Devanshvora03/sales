@@ -67,7 +67,8 @@
                 </tbody>  {% endcomment %}
 {% comment %} this is for user  {% endcomment %}
 {% comment %} trial {% endcomment %}
-<div class="m-auto w-100 pad-2">
+<div class="back-img">
+<div class="m-auto w-100 pad-2 front_1">
     <div class="">
         <div class="text-center m-4">
                 <button type="button" class="btn btn-primary m-auto" data-toggle="modal" data-target="#mymodal" >Add Your Expense </button>
@@ -86,7 +87,7 @@
                                 {% for field in form %}
                                 <div class="form-group" >
                                     {{ field.label }}:
-                                    <br>{{ field }} </br>
+                                    <br>{{ field }} 
                                 </div>
                                 {% endfor %}
                             <button type="submit" class="btn btn-primary mt-3" >
@@ -102,9 +103,11 @@
 
         {% if expenses %}
             
-            <div class="d-flex justify-content-end mb-4">
-            <h3 class="text-center m-auto">Expense List</h3> <a href="{% url 'download-expenses-csv' %}" class ="d-flex justify-content-end " > <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
-
+        <h3 class="text-center m-auto">Expense List</h3> 
+            <div class="d-flex justify-content-end my-4 title2">    
+            <a href="{% url 'download-expenses-csv' %}"> <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
+            <div class="container2">
+        <div class="content2">
             <table class="table mx-auto" style="word-break: break-word;">
                 <thead class="table-secondary">
                 <tr>
@@ -142,9 +145,12 @@
                     {% endfor %}
                 </tbody>
             </table>
+        </div>
+        </div>
             </div>
             {% endif %}
 
+</div>
 </div>
 </div>
 </div>

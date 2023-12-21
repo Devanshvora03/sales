@@ -7,9 +7,65 @@
   box-sizing: border-box;
 }
 
+.back-img{
+  background-image: url("../img/home.png");
+  background-size: cover;
+  height: 92.5vh;
+  overflow-x: hidden;
+  position: relative !important;
+}
+
+.back-img::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 140%;
+  background-color: rgba(56, 64, 70, 0.7);
+  z-index: 2;
+}
+
+.front_1{
+  position: absolute;
+  opacity: 1;
+  z-index: 1041;
+}
+
+
 /* body {
   padding: 0.2em 2em;
 } */
+@media (max-width: 1199.98px) { 
+  .container2{
+    width: 100%; 
+    margin: 0 auto;
+    overflow-x: auto!important;
+    white-space: nowrap;
+  }
+  
+  .content2{
+    width: 1400px;  
+  }
+  
+  .content2 div {
+    display: inline-block;
+    width: 200px;
+    height: 200px;
+    margin-right: 10px;
+  }
+  .title2{
+    justify-content: center!important;
+  }
+  .back-img{
+    height:93.615vh;
+  }
+}
+
+.width-72{
+  width: 11%;
+}
 .pad-2 {
   padding: 0.2em 2em;
 }
@@ -88,9 +144,9 @@ table.fold-table > tbody > tr.fold.open {
   padding: 2rem!important;
 }
 
-.form-group{
+/* .form-group{
  
-}
+} */
 
 .border1{
   border-radius: 15px;
