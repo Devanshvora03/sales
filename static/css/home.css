@@ -71,8 +71,9 @@ body{
     box-shadow: 1px 2px 5px #000;
 }
 .hover1 :hover{
-    
-    .maps,.expense{
+    background-color: rgb(66, 66, 66);
+    /* opacity: 0.5; */
+    .inner_text{
         color:  #007bff;
     }
     text-decoration: none;
@@ -205,10 +206,10 @@ body{
     box-shadow: 1px 2px 5px #00000085;
 }
 
-.navbar{
+/* .navbar{
   
    
-}
+} */
 .navbar :hover{
        
         color:  #007bff!important;
