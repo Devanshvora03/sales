@@ -19,25 +19,28 @@
                                      <button class="btn btn-primary" id="update-coordinates-btn">Get My Coordinates</button>
                                 </div>
                         <div class="form-group mt-3">
-                            <label for="id_hospital_name">Hospital:</label>
+                            <label for="id_hospital_name_label">Hospital:</label>
                         <select name="hospital_name" id="id_hospital_name" class="form-control">
+                            <option value=""> ----  </option>
                             {% for h in hospitals %}
                                 <option value="{{ h.id }}">{{ h.hospital_name }}</option>
                             {% endfor %}
                         </select>
                         </div>
                             <div class="form-group">
-                                <label for="id_person_name">Person Name:</label>
+                                <label for="id_person_name_label">Person Name:</label>
+                                <!-- <div class="warning">
+                                    Please select hospital first
+                                </div> -->
                                 <select name="person_name" id="id_person_name" class="form-control">
-                                    {% for person in persons %}
-                                        <option value="{{ person.id }}">{{ person.name }}</option>
-                                    {% endfor %}
+                                    
+                                    <option value=""> Please select hospital first </option>
                                 </select>
                                 <div class="form-group mt-3">
                                     <label for="id_department">Department of Person:</label>
                                     <select name="department" id="id_department" class="form-control">
-                                        {% for choice in department_choices %}
-                                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                                        {% for choice in department %}
+                                            <option value="{{choice}}">{{choice}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -60,42 +63,52 @@
         </div>
     </div>
     <script>
-        document.getElementById('update-coordinates-btn').addEventListener('click', function() {
+        document.getElementById('update-coordinates-btn').addEventListener('click', function(e) {
+            e.preventDefault();
             if ('geolocation' in navigator) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-
+                    console.log('coordinates are :' + latitude + ', ' + longitude)
                     $('#latitude').val(latitude)
                     $('#longitude').val(longitude)
+                    alert('coordinate added sucessfully')
                 });
             } else {
                 alert('Geolocation is not available in your browser.');
             }
         });
-        {% comment %} $('id_hospital_name').on('change', function(){
+        $('#id_hospital_name').on('change', function(){
+            console.log('hospital changed')
             hospital_id = $(this).val();
             $.ajax({
-                url: "{% url 'get_persons' %}",
+                url: "{% url 'get_person' %}",
                 type: 'GET',
                 data: {
                     'hospital_id': hospital_id
                 },
                 success: function(response){
-                    $('#id_person_name').html(response)
+
+                    $('#id_person_name').html(response.content)
+                    console.log(response)
                 }
             })
-        }) {% endcomment %}
-        $('#expanseForm').on('submit',function(){
+        }) 
+        $('#expanseForm').on('submit',function(e){
             e.preventDefault();
             form = this;
-            formdata = form.serialize();
+            formdata = $(form).serialize();
             $.ajax({
                 url: "{% url 'coordinate' %}",
                 type: 'POST',
                 data: formdata,
                 success: function(response){
+
                     console.log(response)
+                    if (response.status == 'success'){
+                        alert('Successfully submitted')
+                        form.reset();
+                    }
                 }
             })
         })

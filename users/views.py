@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from datetime import datetime, timedelta
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views import View
@@ -11,9 +10,10 @@ from .models import *
 from .forms import *
 import folium
 import csv
-from django.db.models import Q  # Import Q for complex queries
-from django.utils import timezone  # Import timezone
+from .utils import get_distance
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def home(request):
     return render(request, 'users/home.html')
@@ -120,10 +120,8 @@ def expense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             new_expense = Expense.objects.create(
-                # amount = form.cleaned_data.get('amount'),
                 currency = form.cleaned_data.get('currency'),
                 modes=form.cleaned_data.get('modes'),
-                # km=form.cleaned_data.get('km'),
                 rate=form.cleaned_data.get('rate'),
                 total_km=form.cleaned_data.get('total_km'),
                 remarks=form.cleaned_data.get('remarks'),
@@ -136,7 +134,32 @@ def expense(request):
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
-    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
+    coordinates = Coordinate.objects.filter(user= request.user).order_by('date_time')
+    head = True
+    prev_name = ''
+    prev_lat = 0
+    prev_long = 0
+    sum = 0
+    e = []
+    for c in coordinates:
+        if head:
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+            head = False
+            e.append({'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product})
+        else:
+            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += dist
+            prate = Profile.objects.get(user = request.user).rate
+            rate = float( prate * dist)
+            e.append({'date': c.date_time, 'from': prev_name, 'to' : c.hospital.hospital_name, 'total': sum ,'rate' : rate , 'remarks' : c.product})
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+    print(sum)
+
+    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses , 'e':e})
 
 
 def delete_expense(request, expense_id):
@@ -152,6 +175,28 @@ def delete_expense(request, expense_id):
 
 
 def download_expenses_csv(request):
+    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
+    head = True
+    prev_name = ''
+    prev_lat = 0
+    prev_long = 0  
+    sum = 0
+    for c in coordinates:  
+        if head:
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+            head = False
+        else:
+            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += dist
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+
+        
+    print(sum)     
+            
     expenses = Expense.objects.filter(user_id=request.user)
 
     # Create an HTTP response with CSV content type and attachment header
@@ -167,7 +212,6 @@ def download_expenses_csv(request):
     # Write the data rows
     counter = 0
     for expense in expenses:
-        # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
         formatted_date = expense.date.strftime('%Y-%m-%d')
 
         # Increment the counter for each expense
@@ -197,12 +241,14 @@ def coordinate(request):
     form = CoordinateForm()
     if request.method == 'POST':
         department = request.POST.get('department')
-        hospital_id = request.POST.get('hospital_id')
-        person = request.POST.get('person')
+        hospital_id = request.POST.get('hospital_name')
+        person = request.POST.get('person_name')
+        department = request.POST.get('department')     
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
-        person_obj = Person.objects.get_or_create(name = person , department = department)
-        hospital_obj = Hospital.objects.get(hospital_id = hospital_id)
+        person_obj,_ = Person.objects.get_or_create(name = person , department = department)
+        print(hospital_id , type(hospital_id))
+        hospital_obj = Hospital.objects.get(id = int(hospital_id))
         product_obj = request.POST.get('product')
         outcome_obj = request.POST.get('outcome')
         new_Coordinate = Coordinate.objects.create(
@@ -214,12 +260,14 @@ def coordinate(request):
             product = product_obj,
             outcome = outcome_obj
             )   
-        new_Coordinate.sav()
+        new_Coordinate.save()
         messages.success(request, 'coordinate added successfully.')
-        return redirect('/coordinate/')
+        return JsonResponse({'message': 'Coordinate Updated successfully' , 'status' : 'success' ,'code' : 200  })
+
     hospitals = Hospital.objects.all()
     Coordinates = Coordinate.objects.filter(user_id=user)
-    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals})
+    department = Person.objects.values_list('department', flat=True).distinct()
+    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals , 'department' : department})
 
 @login_required(login_url='/login/')
 def update_coordinates(request):
@@ -233,6 +281,20 @@ def update_coordinates(request):
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
+    
+
+def get_person_hospital(request):
+    if is_ajax:
+        hospital_id = request.GET.get('hospital_id')
+        hospital = Hospital.objects.get(id = hospital_id)
+        persons = hospital.staff.all()  
+        print(persons)  
+        # persons = serialize('json', persons)
+        content = ''
+        for i in persons:
+            content += '<option value="'+str(i.name)+'">'+str(i.name)+'</option>'
+        return JsonResponse({'content': content})
+        
     
 
 def maps(request):
