@@ -7,6 +7,7 @@ class Profile(models.Model):
     bio = models.TextField()
     phone = models.CharField(max_length = 12, blank=True, null=True)
     address = models.CharField(max_length = 100, blank=True, null=True)
+    rate = models.FloatField(null=True , blank=True)
     
     def __str__(self):
         return self.user.username
@@ -14,10 +15,8 @@ class Profile(models.Model):
 
 class Expense(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    # amount = models.CharField(max_length=10)
     currency = models.CharField(max_length=10, default="INR")
     modes = models.CharField(max_length=20,null=True,)
-    # km=models.IntegerField(null=True,)
     total_amount =models.IntegerField(null=True,)
     rate = models.CharField(max_length=10,null=True, default = 3.5)
     total_km=models.IntegerField(null=True,)
@@ -44,6 +43,8 @@ class Person(models.Model):
     ('Autoimmune Testing', 'Autoimmune Testing'),
     ]
     name = models.CharField(max_length=25, null=True)
+    rate = models.FloatField(null=True , blank=True)
+    
     department = models.CharField(max_length=50,choices=CHOICES, blank=True, null=True)
 
     def __str__(self):
