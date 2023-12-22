@@ -3,7 +3,6 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from datetime import datetime, timedelta
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.views import View
@@ -11,9 +10,6 @@ from .models import *
 from .forms import *
 import folium
 import csv
-from django.db.models import Q  # Import Q for complex queries
-from django.utils import timezone  # Import timezone
-from django.core.serializers import serialize
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
