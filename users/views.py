@@ -13,7 +13,10 @@ import folium
 import csv
 from django.db.models import Q  # Import Q for complex queries
 from django.utils import timezone  # Import timezone
+from django.core.serializers import serialize
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def home(request):
     return render(request, 'users/home.html')
@@ -197,12 +200,14 @@ def coordinate(request):
     form = CoordinateForm()
     if request.method == 'POST':
         department = request.POST.get('department')
-        hospital_id = request.POST.get('hospital_id')
-        person = request.POST.get('person')
+        hospital_id = request.POST.get('hospital_name')
+        person = request.POST.get('person_name')
+        department = request.POST.get('department')     
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
-        person_obj = Person.objects.get_or_create(name = person , department = department)
-        hospital_obj = Hospital.objects.get(hospital_id = hospital_id)
+        person_obj,_ = Person.objects.get_or_create(name = person , department = department)
+        print(hospital_id , type(hospital_id))
+        hospital_obj = Hospital.objects.get(id = int(hospital_id))
         product_obj = request.POST.get('product')
         outcome_obj = request.POST.get('outcome')
         new_Coordinate = Coordinate.objects.create(
@@ -214,12 +219,14 @@ def coordinate(request):
             product = product_obj,
             outcome = outcome_obj
             )   
-        new_Coordinate.sav()
+        new_Coordinate.save()
         messages.success(request, 'coordinate added successfully.')
-        return redirect('/coordinate/')
+        return JsonResponse({'message': 'Coordinate Updated successfully' , 'status' : 'success' ,'code' : 200  })
+
     hospitals = Hospital.objects.all()
     Coordinates = Coordinate.objects.filter(user_id=user)
-    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals})
+    department = Person.objects.values_list('department', flat=True).distinct()
+    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals , 'department' : department})
 
 @login_required(login_url='/login/')
 def update_coordinates(request):
@@ -233,6 +240,20 @@ def update_coordinates(request):
         coordinates.save()
         print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
+    
+
+def get_person_hospital(request):
+    if is_ajax:
+        hospital_id = request.GET.get('hospital_id')
+        hospital = Hospital.objects.get(id = hospital_id)
+        persons = hospital.staff.all()  
+        print(persons)  
+        # persons = serialize('json', persons)
+        content = ''
+        for i in persons:
+            content += '<option value="'+str(i.name)+'">'+str(i.name)+'</option>'
+        return JsonResponse({'content': content})
+        
     
 
 def maps(request):

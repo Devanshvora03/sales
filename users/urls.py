@@ -11,4 +11,5 @@ urlpatterns = [
     path('expense/delete/<int:expense_id>/', delete_expense, name='delete-expense'),
     path('download-expenses-csv/', download_expenses_csv, name='download-expenses-csv'),
     path('maps/', maps, name='maps'),
+    path('get_person/', get_person_hospital, name='get_person'),
 ]
