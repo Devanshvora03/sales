@@ -142,6 +142,7 @@ body{
     .bg11{
         height: 77vh;
     }
+    
 
 }
 
@@ -198,6 +199,9 @@ body{
     .custom {
         height: 75vh !important;
     }
+    .br_class{
+        display: none;
+    }
 }
 
 @media (min-width: 768px) and (max-width: 991.98px) { 
@@ -221,6 +225,12 @@ body{
     }
     .hover1{
         display: flex!important;
+    }
+    .br_class{
+        display: none;
+    }
+    .container_profile{
+        height: 56vh!important;
     }
  }
 
@@ -246,14 +256,20 @@ body{
     .content{
         height: 95.6vh;
     }
+    .container_profile{
+        height: 60vh!important;
+    }
   }
 
-@media screen and (max-width:1320px){
+@media (min-width:1200px) and (max-width:1320px){
     .dflex12{
             display: inline!important;
             }
     .margin12{
         margin: 0 !important;
+    }
+    .container_profile{
+        height: 60vh!important;
     }
     /* .width12{
         width: 330px!important;
@@ -326,3 +342,4 @@ body{
 .p-6{
     padding: 0.3rem !important;
 }
+
