@@ -10,6 +10,7 @@ from .models import *
 from .forms import *
 import folium
 import csv
+from .utils import get_distance
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -119,10 +120,8 @@ def expense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             new_expense = Expense.objects.create(
-                # amount = form.cleaned_data.get('amount'),
                 currency = form.cleaned_data.get('currency'),
                 modes=form.cleaned_data.get('modes'),
-                # km=form.cleaned_data.get('km'),
                 rate=form.cleaned_data.get('rate'),
                 total_km=form.cleaned_data.get('total_km'),
                 remarks=form.cleaned_data.get('remarks'),
@@ -135,7 +134,32 @@ def expense(request):
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
-    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses})
+    coordinates = Coordinate.objects.filter(user= request.user).order_by('date_time')
+    head = True
+    prev_name = ''
+    prev_lat = 0
+    prev_long = 0
+    sum = 0
+    e = []
+    for c in coordinates:
+        if head:
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+            head = False
+            e.append({'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product})
+        else:
+            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += dist
+            prate = Profile.objects.get(user = request.user).rate
+            rate = float( prate * dist)
+            e.append({'date': c.date_time, 'from': prev_name, 'to' : c.hospital.hospital_name, 'total': sum ,'rate' : rate , 'remarks' : c.product})
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+    print(sum)
+
+    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses , 'e':e})
 
 
 def delete_expense(request, expense_id):
@@ -151,6 +175,28 @@ def delete_expense(request, expense_id):
 
 
 def download_expenses_csv(request):
+    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
+    head = True
+    prev_name = ''
+    prev_lat = 0
+    prev_long = 0  
+    sum = 0
+    for c in coordinates:  
+        if head:
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+            head = False
+        else:
+            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += dist
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+
+        
+    print(sum)     
+            
     expenses = Expense.objects.filter(user_id=request.user)
 
     # Create an HTTP response with CSV content type and attachment header
@@ -166,7 +212,6 @@ def download_expenses_csv(request):
     # Write the data rows
     counter = 0
     for expense in expenses:
-        # Format the date as a string in the desired format (e.g., 'YYYY-MM-DD')
         formatted_date = expense.date.strftime('%Y-%m-%d')
 
         # Increment the counter for each expense
