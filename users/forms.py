@@ -93,7 +93,9 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio','phone','address']
-
+        widgets = {
+            'bio': forms.Textarea(attrs={'cols': 40, 'rows': 2,})
+        }
 
 class ExpenseForm(forms.ModelForm):
     class Meta:
