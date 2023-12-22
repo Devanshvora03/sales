@@ -1,0 +1,135 @@
+@charset "UTF-8";
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.pcs:after {
+    content: " pcs";
+  }
+* {
+    box-sizing: border-box;
+}
+
+.container_cord{
+    max-width: 1100px;
+    background-color: rgb(244, 244, 244);
+    margin: auto;
+    border-radius: 14px;
+    height:88vh;  
+}
+
+.bg11_cord{
+    background-color: #ffffff !important;
+    height: 101%;
+}
+
+.pic_cord{
+    height: 96vh;
+    width: 58%;   
+}
+
+.width12_cord{
+    width:155%;
+}
+
+.image-cord1{
+    width: 38rem;
+    height: 29rem; 
+    overflow: hidden;
+    position: relative;
+    border-radius: 14px;
+}
+
+.image-cord1 img {
+    width: calc(80% + 100px); 
+    height: calc(105% + 70px); 
+    object-fit: cover;
+    position: absolute;
+    bottom: -70px; 
+    left: -40px; 
+}
+
+
+@media (max-width: 575.98px) {
+    .image-cord1{
+        display:none;
+    }
+    .container_cord{
+        display: inline-block!important;
+        height: 69vh !important;
+        width: 100%!important;
+    }
+    .pic_cord{
+        height: auto!important;
+        width:100%!important;
+    }
+    .width12_cord{
+        width: 96%;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 768px){
+    .image-cord1{
+        display:none;
+    }
+    .container_cord{
+        display: inline-block!important;
+        height: 71vh !important;
+        width: 100%!important;
+    }
+    .pic_cord{
+        height: auto!important;
+        width:100%!important;
+    }
+    .width12_cord{
+        width: 96%;
+        height: 57vh;
+    }
+    .p-3 {
+        padding: 1rem !important;
+      }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px){
+    .image-cord1{
+        display:none;
+    }
+    .container_cord{
+        display: inline-block!important;
+        height: 73vh !important;
+        width: 100%!important;
+    }
+    .pic_cord{
+        height: auto!important;
+        width:100%!important;
+    }
+    .width12_cord{
+        width: 96%;
+        height: 57vh;
+    }
+    .pb-3{
+        padding: 0.5rem !important;
+    }
+    .px-5{
+        padding-top: 2rem!important;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px){
+    .bg11_cord{
+        height: 81%;
+    }
+    .width12_cord{
+        width: 145%;
+        height: 57vh;
+    }
+    .container_cord{
+         height: 61vh;
+    }
+}
+
+@media (min-width:1200px) and (max-width:1320px){
+    .container_cord{
+        height: 61vh;
+    }
+    .width12_cord{
+        height: 57vh;
+    }
+}
