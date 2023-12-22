@@ -134,7 +134,7 @@ def expense(request):
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
-    coordinates = Coordinate.objects.filter(user= request.user).order_by('date_time')
+    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
     head = True
     prev_name = ''
     prev_lat = 0
@@ -146,19 +146,22 @@ def expense(request):
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
+            dist = 0 
             head = False
-            e.append({'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product})
+            e.append({'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product , 'distance':dist})
         else:
             dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
             sum += dist
             prate = Profile.objects.get(user = request.user).rate
             rate = float( prate * dist)
-            e.append({'date': c.date_time, 'from': prev_name, 'to' : c.hospital.hospital_name, 'total': sum ,'rate' : rate , 'remarks' : c.product})
+            e.append({'date': c.date_time, 'from': prev_name, 'distance':dist,'to' : c.hospital.hospital_name, 'total': sum ,'rate' : rate , 'remarks' : c.product})
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
     print(sum)
-
+    for en in expenses:
+        e.append({'date': en.date, 'from': 'None', 'to' : 'None', 'total': en.total_amount ,'rate' : en.total_amount , 'remarks' : en.remarks , 'distance':dist})
+    e = e.sort(key=lambda x: x['date'])
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses , 'e':e})
 
 
