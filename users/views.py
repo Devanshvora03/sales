@@ -134,7 +134,7 @@ def expense(request):
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
     expenses = Expense.objects.filter(user_id=user)
-    coordinates = Coordinate.objects.filter(user= request.user).order_by('date_time')
+    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
     head = True
     prev_name = ''
     prev_lat = 0
