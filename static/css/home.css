@@ -64,7 +64,7 @@ body{
 }
 
 .box-1{
-    padding: 2% 4%;
+    padding: 7% 4%;
     border: 2px solid #f0f5f5;
     width: 41rem;
     height: 15rem;
@@ -270,10 +270,9 @@ body{
 .btn-primary{
     box-shadow: 1px 2px 5px #00000085;
 }
-.navbar :hover{
-       
+.navbar4:hover{
+       background-color: #ffffff;
         color:  #007bff!important;
-        
 }
 
 .main_container{
