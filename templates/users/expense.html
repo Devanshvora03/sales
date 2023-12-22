@@ -68,7 +68,23 @@
 {% comment %} this is for user  {% endcomment %}
 {% comment %} trial {% endcomment %}
 <div class="back-img">
-<div class="m-auto w-100 pad-2 front_1">
+    {% comment %}  {% endcomment %}
+{% if messages %}
+          <div class="front_1 alert alert-dismissible" role="alert">
+            {% for message in messages %}
+              {% if message.tags == 'success' %}
+                <div class="alert alert-success">{{ message }}</div>
+              {% else %}
+                <div class="alert alert-danger">{{ message }}</div>
+              {% endif %}
+            {% endfor %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          {% endif %}
+    {% comment %}  {% endcomment %}
+<div class=" w-100 pad-2 front_1">
     <div class="">
         <div class="text-center m-4">
                 <button type="button" class="btn btn-primary m-auto" data-toggle="modal" data-target="#mymodal" >Add Your Expense </button>

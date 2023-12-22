@@ -16,7 +16,7 @@ body{
 }
 
 .overflow1{
-    overflow-x: hidden!important;
+    overflow: hidden!important;
 }
 .width{
     width: 30%;
@@ -71,8 +71,6 @@ body{
     box-shadow: 1px 2px 5px #000;
 }
 .hover1 :hover{
-    background-color: rgb(66, 66, 66);
-    /* opacity: 0.5; */
     .inner_text{
         color:  #007bff;
     }
@@ -107,7 +105,46 @@ body{
     .hover1{
         display: block!important;
     }
+    .image-profile{
+        display:none;
+    }
+    .container_profile{
+        display: inline-block!important;
+        height: 92vh!important;
+        width: 100%!important;
+    }
+    .pic{
+        height: auto!important;
+        width:100%!important;
+    }
+    .px-5{
+        padding-right: 0rem !important;
+        padding-left: 1.6rem !important;
+    }
+    .pt-5{
+        padding-top: 1rem!important;
+    }
+    .pb-3{
+        padding-bottom: 0rem!important ;
+    }
+    .custom {
+        width: 100% !important;
+    }
+    .br_class{
+        display: none;
+    }
+    .p_class{
+        margin-bottom: 0rem!important;
+    }
+    .p-5{
+        padding: 0.2rem !important;
+    }
+    .bg11{
+        height: 77vh;
+    }
+
 }
+
 @media (min-width: 576px) and (max-width: 768px) { 
     .head1{
         font-size: 250%;
@@ -132,6 +169,34 @@ body{
     }
     .hover1{
         display: block!important;
+    }
+    .image-profile{
+        display:none;
+    }
+    .container_profile{
+        display: inline-block!important;
+        height: 92vh!important;
+        width: 100%!important;
+    }
+    .pic{
+        height: auto!important;
+        width:100%!important;
+    }
+    .width12{
+        width:76%!important;
+    }
+    .px-5{
+        padding-right: 0rem !important;
+        padding-left: 1.6rem !important;
+    }
+    .pt-5{
+        padding-top: 1rem!important;
+    }
+    .pb-3{
+        padding-bottom: 0rem!important ;
+    }
+    .custom {
+        height: 75vh !important;
     }
 }
 
@@ -190,9 +255,9 @@ body{
     .margin12{
         margin: 0 !important;
     }
-    .width12{
+    /* .width12{
         width: 330px!important;
-    }
+    } */
 }
 
 @media screen and (max-width:1320px) {
@@ -205,14 +270,59 @@ body{
 .btn-primary{
     box-shadow: 1px 2px 5px #00000085;
 }
-/* .navbar{
-   
-} */
 .navbar :hover{
        
         color:  #007bff!important;
         
 }
 
+.main_container{
+    padding: 1%;
+}
 
+.container_profile{
+    max-width: 1100px;
+    background-color: rgb(244, 244, 244);
+    margin: auto;
+    border-radius: 14px;
+    height:88vh;  
+}
 
+.form-control{
+   background-color:  rgb(244, 244, 244) !important;
+}
+
+.custom{
+    width: 87%;
+}
+
+.bg11{
+    background-color: #ffffff !important;
+    height: 101%;
+}
+
+.pic{
+    height: 96vh;
+    width: 58%;   
+}
+
+.image-profile{
+    width: 38rem;
+    height: 29rem; 
+    overflow: hidden;
+    position: relative;
+    border-radius: 14px;
+}
+
+.image-profile img {
+    width: calc(80% + 50px); 
+    height: calc(105% + 50px); 
+    object-fit: cover;
+    position: absolute;
+    bottom: -70px; 
+    left: -40px; 
+  }
+
+.p-6{
+    padding: 0.3rem !important;
+}
