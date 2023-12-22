@@ -158,7 +158,9 @@ def expense(request):
             prev_lat = c.latitude
             prev_long = c.longitude
     print(sum)
-
+    for en in expenses:
+        e.append({'date': en.date, 'from': 'None', 'to' : 'None', 'total': en.total_amount ,'rate' : en.total_amount , 'remarks' : en.remarks})
+    e = e.sort(key=lambda x: x['date'])
     return render(request, 'users/expense.html',{'form':form, 'expenses':expenses , 'e':e})
 
 
