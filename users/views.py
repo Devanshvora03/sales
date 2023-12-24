@@ -8,14 +8,16 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .utils import get_distance
 from django.views import View
-from .models import * 
+from .models import *
 from .forms import *
 import folium
 import pytz
 import csv
 
+
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 def home(request):
     return render(request, 'users/home.html')
@@ -27,11 +29,9 @@ class RegisterView(View):
     template_name = 'users/register.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # will redirect to the home page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
             return redirect(to='/')
 
-        # else process dispatch as it otherwise normally would
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
@@ -52,7 +52,6 @@ class RegisterView(View):
         return render(request, self.template_name, {'form': form})
 
 
-# Class based view that extends from the built in login view to add a remember me functionality
 class CustomLoginView(LoginView):
     form_class = LoginForm
 
@@ -60,15 +59,11 @@ class CustomLoginView(LoginView):
         remember_me = form.cleaned_data.get('remember_me')
 
         if not remember_me:
-            # set session expiry to 0 seconds. So it will automatically close the session after the browser is closed.
             self.request.session.set_expiry(0)
-
-            # Set session as modified to force data updates/cookie to be saved.
             self.request.session.modified = True
 
-        # else browser session will be as long as the session cookie time "SESSION_COOKIE_AGE" defined in settings.py
         return super(CustomLoginView, self).form_valid(form)
-    
+
 
 class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
     template_name = 'users/password_reset.html'
@@ -95,23 +90,17 @@ def profile(request):
         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=profile_instance)
 
         if user_form.is_valid() and profile_form.is_valid():
-            print(user_form , '=== user form ===')
-            print(profile_form , '=== profile form ===')
             user_form.save()
             profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
             return redirect(to='users-profile')
         elif user_form.is_valid():
-            print(user_form , " === user form === ")
             user_form.save()
         elif profile_form.is_valid():
             profile_form.save()
-            print(profile_form , "=== profile form ===")
     else:
-        user_obj = User.objects.get(username = request.user.username)
+        user_obj = User.objects.get(username=request.user.username)
         profile_instance = Profile.objects.get(user=user_obj)
-        print ('=== Profile Instance ===' , profile_instance )
-        print ('=== User Instance ===' , user_obj)
         user_form = UpdateUserForm(instance=user_obj)
         profile_form = UpdateProfileForm(instance=profile_instance)
 
@@ -122,23 +111,24 @@ def expense(request):
     user = request.user
     form = ExpenseForm()
     if request.method == 'POST':
-        form = ExpenseForm(request.POST)
+        form = ExpenseForm(request.POST, request.FILES)
+        print(form.is_valid())
+        # if form.is_valid():
+        #     # user_id = request.user
+        #     print(request.FILES['image'])
+        #     obj = form.save()
+        #     print(obj)
+        #     messages.success(request, 'Expense added successfully.')
+        #     return redirect('/expense/')
+        
         if form.is_valid():
-            new_expense = Expense.objects.create(
-                currency = form.cleaned_data.get('currency'),
-                modes=form.cleaned_data.get('modes'),
-                rate=form.cleaned_data.get('rate'),
-                total_km=form.cleaned_data.get('total_km'),
-                remarks=form.cleaned_data.get('remarks'),
-                image=request.POST.get('image'),
-                user_id = request.user
-                )
-            new_expense.total_amount = float(new_expense.rate) * float(new_expense.total_km)
-            new_expense.save()
-            print(request.FILES)
+            expense_instance = form.save(commit=False)
+            expense_instance.user_id = user
+            expense_instance.total_km = 0
+            expense_instance.save()
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
-        
+
     expenses = Expense.objects.filter(user_id=user)
     coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
     head = True
@@ -147,37 +137,37 @@ def expense(request):
     prev_long = 0
     sum = 0
     e = []
-    print(coordinates)
+
     for c in coordinates:
-        print(c.date_time)
         if head:
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
-            distance = 0 
+            distance = 0
             head = False
-            obj = {'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product , 'distance':distance , 'type' : 'location' ,'id':c.id }
-            print(obj)
+            obj = {'date': c.date_time, 'from': 'Home', 'to': c.hospital.hospital_name, 'total': 0, 'rate': 0,
+                   'remarks': c.product, 'distance': distance, 'type': 'location', 'id': c.id}
             e.append(obj)
         else:
             distance = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
             sum += distance
-            prate = Profile.objects.get(user = request.user).rate or 3.5
+            prate = Profile.objects.get(user=request.user).rate or 3.5
             rate = float(prate * distance)
-            obj = {'date': c.date_time, 'from': prev_name, 'distance':distance,'to' : c.hospital.hospital_name, 'total': rate ,'rate' : prate , 'remarks' : c.product , 'type' : 'location' ,'id':c.id  }
-            print(obj)
+            obj = {'date': c.date_time, 'from': prev_name, 'distance': distance, 'to': c.hospital.hospital_name,
+                   'total': rate, 'rate': prate, 'remarks': c.product, 'type': 'location', 'id': c.id}
             e.append(obj)
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
 
-    print(sum)
     for en in expenses:
-        e.append({'date': datetime.combine(en.date, datetime.min.time()).replace(tzinfo=pytz.UTC), 'from': 'None', 'to' : 'None', 'total': en.total_amount ,'rate' : 0 , 'remarks' : en.remarks , 'distance':distance , 'type' : 'expense' , 'id' : en.id })
-    # print("unsorted e" , e)
+        e.append({'date': datetime.combine(en.date, datetime.min.time()).replace(tzinfo=pytz.UTC), 'from': 'None',
+                  'to': 'None', 'total': en.total_amount, 'rate': 0, 'remarks': en.remarks, 'distance': distance,
+                  'type': 'expense', 'id': en.id})
+
     e.sort(key=lambda x: x['date'])
-    # print("sorted e" , e)
-    return render(request, 'users/expense.html',context = {'form':form, 'ex':e})
+
+    return render(request, 'users/expense.html', context={'form': form, 'ex': e})
 
 
 def delete_expense(request, expense_id):
@@ -193,60 +183,69 @@ def delete_expense(request, expense_id):
 
 
 def download_expenses_csv(request):
-    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
-    head = True
-    prev_name = ''
-    prev_lat = 0
-    prev_long = 0  
-    sum = 0
-    for c in coordinates:  
-        if head:
-            prev_name = c.hospital
-            prev_lat = c.latitude
-            prev_long = c.longitude
-            head = False
-        else:
-            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
-            sum += dist
-            prev_name = c.hospital
-            prev_lat = c.latitude
-            prev_long = c.longitude
 
-    print(sum)     
-            
-    expenses = Expense.objects.filter(user_id=request.user)
-
-    # Create an HTTP response with CSV content type and attachment header
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="expenses.csv"'
 
     csv_writer = csv.writer(response)
-
-    # Write the header row with column names
-    header = ['Sr.no.', 'Date', 'User', 'Mode', 'Rate', 'Total Distance', 'Currency', 'Total Amount', 'Amount Details']
+    header = ['Sr.no.', 'Date', 'User', 'Rate', 'Total Distance', 'From', 'To', 'Total Amount', 'Remarks']
     csv_writer.writerow(header)
+    user=request.user
+    expenses = Expense.objects.filter(user_id=user)
+    coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
+    head = True
+    prev_name = ''
+    prev_lat = 0
+    prev_long = 0
+    sum = 0
+    e = []
 
-    # Write the data rows
+    for c in coordinates:
+        if head:
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+            distance = 0
+            head = False
+            obj = {'date': c.date_time, 'from': 'Home', 'to': c.hospital.hospital_name, 'total': 0, 'rate': 0,
+                   'remarks': c.product, 'distance': distance, 'type': 'location', 'id': c.id}
+            e.append(obj)
+
+        else:
+            distance = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += distance
+            prate = Profile.objects.get(user=request.user).rate or 3.5
+            rate = float(prate * distance)
+            obj = {'date': c.date_time, 'from': prev_name, 'distance': distance, 'to': c.hospital.hospital_name,
+                   'total': rate, 'rate': prate, 'remarks': c.product, 'type': 'location', 'id': c.id}
+            e.append(obj)
+            prev_name = c.hospital
+            prev_lat = c.latitude
+            prev_long = c.longitude
+
+    for en in expenses:
+        e.append({'date': datetime.combine(en.date, datetime.min.time()).replace(tzinfo=pytz.UTC), 'from': 'None',
+                  'to': 'None', 'total': en.total_amount, 'rate': 0, 'remarks': en.remarks, 'distance': distance,
+                  'type': 'expense', 'id': en.id})
+
+    e.sort(key=lambda x: x['date'])
     counter = 0
-    for expense in expenses:
-        formatted_date = expense.date.strftime('%Y-%m-%d')
 
-        # Increment the counter for each expense
+    for expense in e:
+        formatted_date = expense['date'].strftime('%Y-%m-%d')
         counter += 1
-
         data_row = [
             counter,
             formatted_date,
-            expense.user_id.username,
-            expense.modes,
-            expense.rate,
-            expense.total_km,
-            expense.currency, 
-            expense.total_amount,
-            expense.remarks,
+            user.username,
+            expense['rate'],
+            expense['distance'],
+            expense['from'],
+            expense['to'],
+            expense['total'],
+            expense['remarks'],
         ]
         csv_writer.writerow(data_row)
-
         if counter >= 10:
             break
 
@@ -260,31 +259,32 @@ def coordinate(request):
         department = request.POST.get('department')
         hospital_id = request.POST.get('hospital_name')
         person = request.POST.get('person_name')
-        department = request.POST.get('department')     
+        department = request.POST.get('department')
         latitude = request.POST.get('latitude')
         longitude = request.POST.get('longitude')
-        person_obj,_ = Person.objects.get_or_create(name = person , department = department)
-        print(hospital_id , type(hospital_id))
-        hospital_obj = Hospital.objects.get(id = int(hospital_id))
+        person_obj, _ = Person.objects.get_or_create(name=person, department=department)
+        hospital_obj = Hospital.objects.get(id=int(hospital_id))
         product_obj = request.POST.get('product')
         outcome_obj = request.POST.get('outcome')
         new_Coordinate = Coordinate.objects.create(
-            user_id = request.user,
-            latitude = latitude,
-            longitude = longitude,
-            person_name = person_obj,
-            hospital = hospital_obj,
-            product = product_obj,
-            outcome = outcome_obj
-            )   
+            user_id=request.user,
+            latitude=latitude,
+            longitude=longitude,
+            person_name=person_obj,
+            hospital=hospital_obj,
+            product=product_obj,
+            outcome=outcome_obj
+        )
         new_Coordinate.save()
         messages.success(request, 'coordinate added successfully.')
-        return JsonResponse({'message': 'Coordinate Updated successfully' , 'status' : 'success' ,'code' : 200  })
+        return JsonResponse({'message': 'Coordinate Updated successfully', 'status': 'success', 'code': 200})
 
     hospitals = Hospital.objects.all()
     Coordinates = Coordinate.objects.filter(user_id=user)
     department = Person.objects.values_list('department', flat=True).distinct()
-    return render(request, 'users/coordinate.html',{'form': form, 'coordinate' : Coordinates , 'hospitals' : hospitals , 'department' : department})
+    return render(request, 'users/coordinate.html',
+                  {'form': form, 'coordinate': Coordinates, 'hospitals': hospitals, 'department': department})
+
 
 @login_required(login_url='/login/')
 def update_coordinates(request):
@@ -293,37 +293,33 @@ def update_coordinates(request):
         coordinates = Coordinate.objects.create(
             latitude=request.POST.get('latitude'),
             longitude=request.POST.get('longitude'),
-            user_id = request.user
+            user_id=request.user
         )
         coordinates.save()
-        print(coordinates.latitude, coordinates.longitude)
         return JsonResponse({'message': 'Coordinates updated successfully'})
-    
+
 
 def get_person_hospital(request):
     if is_ajax:
         hospital_id = request.GET.get('hospital_id')
-        hospital = Hospital.objects.get(id = hospital_id)
-        persons = hospital.staff.all()  
-        print(persons)  
-        # persons = serialize('json', persons)
+        hospital = Hospital.objects.get(id=hospital_id)
+        persons = hospital.staff.all()
         content = ''
         for i in persons:
-            content += '<option value="'+str(i.name)+'">'+str(i.name)+'</option>'
+            content += '<option value="' + str(i.name) + '">' + str(i.name) + '</option>'
         return JsonResponse({'content': content})
-    
+
 
 def maps(request):
     if request.method == 'POST':
         start = request.POST.get('start')
         end = request.POST.get('end')
-        coordinates = Coordinate.objects.filter(user_id= request.user)
-        coordinate = coordinate.filter(date_time__range=(start, end)) 
+        coordinates = Coordinate.objects.filter(user_id=request.user)
+        coordinate = coordinate.filter(date_time__range=(start, end))
         fp = coordinates.first()
         coordinate_list = []
         mapObject = folium.Map(location=[fp.latitude, fp.longitude])
         for i in coordinates:
-            #print(i.latitude, i.longitude)
             coordinate_list.append((i.latitude, i.longitude))
             folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
             folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
@@ -332,14 +328,13 @@ def maps(request):
         context = {
             'maps': mapContext,
         }
-        return JsonResponse({'message': 'Coordinates updated successfully' , 'context': context})   
-    
-    coordinates = Coordinate.objects.filter(user_id= request.user)
+        return JsonResponse({'message': 'Coordinates updated successfully', 'context': context})
+
+    coordinates = Coordinate.objects.filter(user_id=request.user)
     fp = coordinates.first()
     coordinate_list = []
     mapObject = folium.Map(location=[fp.latitude, fp.longitude])
     for i in coordinates:
-        #print(i.latitude, i.longitude)
         coordinate_list.append((i.latitude, i.longitude))
         folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
         folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)

@@ -10,8 +10,8 @@ def get_distance(lat1,lon1,lat2,lon2):
         data = response.json()
         # Extract distance information from the response
         distance_in_meters = data['routes'][0]['distance']/1000
-        print("Coordinates are : " , lat1 , lon1 , lat2 , lon2 , sep= '-') 
-        print("Distances are",distance_in_meters)
+        # print("Coordinates are : " , lat1 , lon1 , lat2 , lon2 , sep= '-') 
+        # print("Distances are",distance_in_meters)
         return distance_in_meters
     else:
         print(f"Error: {response.status_code}")

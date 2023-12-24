@@ -21,4 +21,7 @@ urlpatterns = [
          name='password_reset_complete'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

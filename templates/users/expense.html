@@ -1,179 +1,167 @@
 {% extends "users/base.html" %}
 {% load static %}
+
 {% block css %}
-
-<link rel="stylesheet" href="{% static 'static/css/expense.css' %}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
+    <link rel="stylesheet" href="{% static 'static/css/expense.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 {% endblock %}
-        
+
 {% block content %}
-
-{% comment %} this is for manager {% endcomment %}
-{% comment %} <div class="m-auto w-100">
-    <div class="">
-       
-        <div class="jumbotron p-3">
-            <div class="d-flex justify-content-end mb-4">
-            <h3 class="text-center m-auto">Employees</h3> <a href="{% url 'download-expenses-csv' %}" class ="d-flex justify-content-end " > <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
-
-            <table class="table mx-auto fold-table" style="word-break: break-word;">
-                <thead class="table-secondary">
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Employee Name</th>
-                    <th scope="col">EmployeeID</th>
-                    <!-- <th scope="col"></th> -->
-                    <th scope="col"></th>
-                </tr>
-                </thead>
-                <tbody>
-                    <tr class="view">
-                        <td></td>
-                        <td> {{ request.user }} </td>
-                        <td>  </td>
-                        <td class="cur">123456</td>
-                        <!-- <td class="cur"></td> -->
-                        <td a href="{% url 'download-expenses-csv' %}" class="btn btn-success btn-xs">Download Expenses</div></a></td>
+    {# Comment for manager #}
+    {% comment %} {# <div class="m-auto w-100">
+        <div class="">
+            <div class="jumbotron p-3">
+                <div class="d-flex justify-content-end mb-4">
+                    <h3 class="text-center m-auto">Employees</h3>
+                    <a href="{% url 'download-expenses-csv' %}" class="d-flex justify-content-end">
+                        <div class="btn btn-success ">Download Expenses CSV</div>
+                    </a>
+                </div>
+                <table class="table mx-auto fold-table" style="word-break: break-word;">
+                    <thead class="table-secondary">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Employee Name</th>
+                        <th scope="col">EmployeeID</th>
+                        <th scope="col"></th>
                     </tr>
-                    <tr class="fold">
-                        <td colspan="7">
-                        <div class="fold-content">
-                            
-                            <table>
-                                <thead>
-                                  <tr>
-                                    <th scope="col">#</th>
-                                    <th>Amount Details</th>
-                                    <th>Amount </th>
-                                    <th>Date</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    {% for expense in expenses %}
-                                    <tr>
-                                    <th scope="row">{{ forloop.counter }}</th>
-                                    <td>{{ expense.amount_details }}</td>
-                                    <td>{{ expense.amount }} {{ expense.currency }} </td>
-                                    <td>{{ expense.date }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>          
-                        </div>
-                        </td>
-                    </tr>
-                </tbody>  {% endcomment %}
-{% comment %} this is for user  {% endcomment %}
-{% comment %} trial {% endcomment %}
-<div class="back-img">
-    {% comment %}  {% endcomment %}
-{% if messages %}
-          <div class="front_1 alert alert-dismissible" role="alert">
-            {% for message in messages %}
-              {% if message.tags == 'success' %}
-                <div class="alert alert-success">{{ message }}</div>
-              {% else %}
-                <div class="alert alert-danger">{{ message }}</div>
-              {% endif %}
-            {% endfor %}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          {% endif %}
-    {% comment %}  {% endcomment %}
-<div class=" w-100 pad-2 front_1">
-    <div class="">
-        <div class="text-center m-4">
-                <button type="button" class="btn btn-primary m-auto" data-toggle="modal" data-target="#mymodal" >Add Your Expense </button>
-        </div>
-    <div class="jumbotron p-3">
-    <div class="container">
-        <div class="modal" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content  bg1">
-                    <div class="modal-body">
-                        <form method="post">
-                            <div class="border1">
-                                <h2 style="font-family: sans-serif; margin-bottom: 0.1rem">Expenses</h2>
-                                <h6 style="margin-bottom: 1.5rem" ;>Fill the data below</h6>
-                                {% csrf_token %}
-                                {% for field in form %}
-                                <div class="form-group" >
-                                    {{ field.label }}:
-                                    <br>{{ field }} 
+                    </thead>
+                    <tbody>
+                        <tr class="view">
+                            <td></td>
+                            <td>{{ request.user }}</td>
+                            <td></td>
+                            <td class="cur">
+                                <a href="{% url 'download-expenses-csv' %}" class="btn btn-success btn-xs">Download Expenses</div></a>
+                            </td>
+                        </tr>
+                        <tr class="fold">
+                            <td colspan="7">
+                                <div class="fold-content">
+                                    <table>
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th>Amount Details</th>
+                                            <th>Amount </th>
+                                            <th>Date</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for expense in expenses %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td>{{ expense.amount_details }}</td>
+                                                <td>{{ expense.amount }} {{ expense.currency }} </td>
+                                                <td>{{ expense.date }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>          
                                 </div>
-                                {% endfor %}
-                            <button type="submit" class="btn btn-primary mt-3" >
-                                Add the Expense
-                            </button> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> #} {% endcomment %}
+
+    {# Comment for user #}
+    {# trial #}
+    <div class="back-img">
+        {% if messages %}
+            <div class="front_1 alert alert-dismissible" role="alert">
+                {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% else %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endif %}
+                {% endfor %}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+        <div class="w-100 pad-2 front_1">
+            <div class="">
+                <div class="text-center m-4">
+                    <button type="button" class="btn btn-primary m-auto" data-toggle="modal" data-target="#mymodal">Add Your Expense </button>
+                </div>
+                <div class="jumbotron p-3">
+                    <div class="container">
+                        <div class="modal" id="mymodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content  bg1">
+                                    <div class="modal-body">
+                                        <form method="post" enctype="multipart/form-data">
+                                            <div class="border1">
+                                                <h2 style="font-family: sans-serif; margin-bottom: 0.1rem">Expenses</h2>
+                                                <h6 style="margin-bottom: 1.5rem">Fill the data below</h6>
+                                                {% csrf_token %}
+                                                {{form.as_p}}
+                                                <button type="submit" class="btn btn-primary mt-3">Add the Expense</button> 
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        </form>
                     </div>
+                    {% if ex %}
+                        <h3 class="text-center m-auto">Expense List</h3> 
+                        <div class="d-flex justify-content-end my-4 title2">    
+                            <a href="{% url 'download-expenses-csv' %}"><div class="btn btn-success ">Download Expenses CSV</div></a>
+                        </div>
+                        <div class="container2">
+                            <div class="content2">
+                                <table class="table mx-auto" style="word-break: break-word;">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <th scope="col">SR. No.</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Rate</th>
+                                            <th scope="col">Total Distance</th>
+                                            <th scope="col">From</th>
+                                            <th scope="col">To</th>
+                                            <th scope="col">Total Amount</th>
+                                            <th scope="col">Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{ex.id}}
+                                        {% for a in ex %}
+                                            <tr>
+                                                <th scope="row">{{ forloop.counter }}</th>
+                                                <td class="">{{ a.date }}</td>
+                                                <td class="">{{ a.rate }} Rs.</td>
+                                                <td class="">{{ a.distance|floatformat:2 }} Km</td>
+                                                <td class="">{{ a.from }}</td>
+                                                <td class="">{{ a.to }}</td>
+                                                <td class="">{{ a.total|floatformat:2 }} Rs.</td>
+                                                <td class="">{{ a.remarks }}</td>
+                                                {% if a.type == 'expense' %}
+                                                    <td class="">
+                                                        <form method="post" action="{% url 'delete-expense' a.id %}">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger btn-sm">x</button>
+                                                        </form>
+                                                    </td>
+                                                {% endif %}
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
-
-        {% if ex %}
-            
-        <h3 class="text-center m-auto">Expense List</h3> 
-            <div class="d-flex justify-content-end my-4 title2">    
-            <a href="{% url 'download-expenses-csv' %}"> <div class="btn btn-success ">Download Expenses CSV</div> </a> </div>
-            <div class="container2">
-        <div class="content2">
-            <table class="table mx-auto" style="word-break: break-word;">
-                <thead class="table-secondary">
-                <tr>
-                    <th scope="col">SR. No.</th>
-                    <th scope="col">Date</th>
-                    {% comment %} <th scope="col">Mode</th> {% endcomment %}
-                    <th scope="col">Rate</th>
-                    <th scope="col">Total Distance</th>
-                    <th scope="col">From</th>
-                    <th scope="col">To</th>
-                    <th scope="col">Total Amount</th>
-                    <th scope="col">Remarks</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {{ex.id}}
-                    {% for a in ex %}
-                    <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td class="">{{ a.date }}</td>
-                        {% comment %} <td class="">{{ a.modes }}</td> {% endcomment %}
-                        <td class="">{{ a.rate }} Rs.</td>
-                        <td class="">{{ a.distance|floatformat:2 }} Km</td>
-                        <td class="">{{ a.from }}</td>
-                        <td class="">{{ a.to }}</td>
-                        <td class="">{{ a.total|floatformat:2 }} Rs.</td>
-                        <td class="">{{ a.remarks }}</td>
-                        {% comment %} <td class="">{{ a.id }}</td> {% endcomment %}
-                        {% if a.type == 'expense' %}
-                        <td class="">
-                            <form method="post" action="{% url 'delete-expense' a.id %}">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger btn-sm">x</button>
-                            </form>
-                        </td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        </div>
-            </div>
-            {% endif %}
-
-</div>
-</div>
-</div>
-</div>
-{% endblock%}
+{% endblock %}
 
 {% block js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
@@ -183,23 +171,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
-   
-
-<script> 
-    $(function(){
-        $(".fold-table tr.view").on("click", function(){
-            $(this).toggleClass("open").next(".fold").toggleClass("open");
+    <script> 
+        $(function(){
+            $(".fold-table tr.view").on("click", function(){
+                $(this).toggleClass("open").next(".fold").toggleClass("open");
+            });
         });
-    });
-
-    
-     {% comment %} $('#button1').on('click', function (e) {
-        e.preventDefault(); 
-        console.log('id')
-        $('#modalbox').show();
-    })  {% endcomment %}
-
-</script>
+    </script>
 {% endblock %}
-
-

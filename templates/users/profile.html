@@ -1,10 +1,10 @@
 {% extends "users/base.html" %}
 {% block title %}Profile Page{% endblock title %}
-{% load tags%}
+{% load tags %}
 {% load static %}
 {% block content %}
 
-<div class = "main_container">
+<div class="main_container">
     {% if user_form.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
             <div id="form_errors">
@@ -17,71 +17,72 @@
             </button>
         </div>
     {% endif %}
-<div class="container_profile d-flex">
-    <div class="pic">
-        <div class="px-5 pt-5 pb-3">
-        <h3>Welcome!
-        <div class="br_class">First things first...</div></h3>
-        <p class="p_class">create a profile to personalize how you'll appear</p>
+
+    <div class="container_profile d-flex">
+        <div class="pic">
+            <div class="px-5 pt-5 pb-3">
+                <h3>Welcome!</h3>
+                <div class="br_class">First things first...</div>
+                <p class="p_class">create a profile to personalize how you'll appear</p>
+            </div>
+            <div class="image-profile">
+                <img src="{% static 'static/img/profile_2.png' %}" alt="Your Image">
+            </div>
         </div>
-        <div class="image-profile"> <img src="{% static 'static/img/profile_2.png' %}" alt="Your Image">
-        </div>
-    </div>   
-    <div class="p-3 ">
-        <div class="bg11 m-auto rounded width12 width1 custom"  >
-        <div class="d-flex p-3 justify-content-center form-content w--rem-28" >
-                            <div class="">
-                            <form  id="profileForm" >
+
+        <div class="p-3">
+            <div class="bg11 m-auto rounded width12 width1 custom">
+                <div class="d-flex p-3 justify-content-center form-content w--rem-28">
+                    <div class="">
+                        <form id="profileForm">
                             {% csrf_token %}
-            <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <div class="d-flex dflex12 w-100">
-                            <div class = "">
-                                <label class=" mb-0 ">First Name:</label>
-                                {{ user_form.first_name }} 
+                            <div class="form-row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <div class="d-flex dflex12 w-100">
+                                            <div class="">
+                                                <label class="mb-0">First Name:</label>
+                                                {{ user_form.first_name }}
+                                            </div>
+                                            <div class="ml-2 margin12">
+                                                <label class="mb-0">Last Name:</label>
+                                                {{ user_form.last_name }}
+                                            </div>
+                                        </div>
+                                        <label class="mb-1">Email:</label>
+                                        {{ user_form.email }}
+                                        <label class="mb-1">Username:</label>
+                                        {{ user_form.username }}
+                                        <label class="mb-1">Phone Number:</label>
+                                        {{ profile_form.phone }}
+                                        <label class="">Address:</label>
+                                        <label for="exampleFormControlTextarea1"></label>
+                                        {{ profile_form.address }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class = "ml-2 margin12">
-                                <label class=" mb-0">Last Name:</label>
-                                {{ user_form.last_name }} 
+                            <div class="form-group1">
+                                <a href="{% url 'password_change' %}">Change Password</a>
                             </div>
+                            <div class="">
+                                <div class="form-row">
+                                    <div class="col-m-5">
+                                        <label class="">Bio:</label> {{ profile_form.bio }}
+                                    </div>
+                                </div>
+                                <div class="p-6"></div>
+                                <button type="submit" class="button1 btn btn-primary btn-lg">Update</button>
+                            </div>
+                        </form>
                     </div>
-                            <label class="mb-1 ">Email:</label>
-                            {{ user_form.email }} 
-                            <label class="mb-1 ">Username:</label>
-                            {{ user_form.username }} 
-                            <label class="mb-1 ">Phone Number:</label>
-                            {{profile_form.phone}}
-                            <label class="">Address:</label>
-                            <label for="exampleFormControlTextarea1"></label>
-                            {{profile_form.address}}
-                    </div>
-                </div>
-            </div>
-                    <div class="form-group1">
-                        <a href="{% url 'password_change' %}">Change Password</a>
-                    </div>           
-                
-            <div class="">
-                <div class="form-row">
-                    <div class="col-m-5">
-                        <label class="">Bio:</label> {{ profile_form.bio }}
-                    </div>
-                </div>
-    
-                <div class="p-6"></div>
-                    <button type="submit" class="button1 btn btn-primary btn-lg">Update</button>
                 </div>
             </div>
         </div>
-    </form>
-    
     </div>
-    </div>
-</div>
 </div>
 </div>
 {% endblock content %}
+
 {% block js %}
 <script>
     $(document).ready(function(){
@@ -94,25 +95,13 @@
                 type: "POST",
                 data: formData,
                 success: function(data){
-                    //$("#form_errors").html("");
-                    //$("#form_errors").hide();
-                    //$("#form_success").html(data.message);
-                    //$("#form_success").show();
-                    alert('Parth ne kr dikhaya ')
+                    alert('User Details Updated')
                 },
                 error: function(data){
-                    //$("#form_success").html("");
-                    //$("#form_success").hide();
-                    //$("#form_errors").html("");
-                    //$("#form_errors").show();
-                    //$.each(data.responseJSON, function(key, value){
-                    //    $("#form_errors").append("<strong>"+value+"</strong>");
-                    //});
                     alert('error')
                 }
             });
         });
     });
-
 </script>
 {% endblock js %}

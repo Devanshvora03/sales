@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
+from django.core.validators import FileExtensionValidator
 from .models import *
 
 
@@ -93,22 +94,19 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio','phone','address']
-        widgets = {
-            
-        }
+      
 
 class ExpenseForm(forms.ModelForm):
+    image = forms.FileField(
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])],
+        help_text='Only JPG, JPEG, or PNG files are allowed.'
+    )
     class Meta:
         model = Expense
-        exclude = ('user_id', 'total_amount')
-        widgets = {
-            # 'remarks': forms.CharField(attrs={'cols': 35, 'rows': 3,})
-        }  
+        exclude = ('user_id','modes', 'rate','total_km','date')
+
 
 class CoordinateForm(forms.ModelForm):
     class Meta:
         model = Coordinate
         exclude = ('user_id',)
-        # widgets = {
-        #     'hospital_address': forms.Textarea(attrs={'cols': 30, 'rows': 3})
-        # }
