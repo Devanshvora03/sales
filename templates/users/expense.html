@@ -1,5 +1,4 @@
 {% extends "users/base.html" %}
-{% block content %}
 {% load static %}
 {% block css %}
 
@@ -9,6 +8,7 @@
 
 {% endblock %}
         
+{% block content %}
 
 {% comment %} this is for manager {% endcomment %}
 {% comment %} <div class="m-auto w-100">
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-        {% if expenses %}
+        {% if ex %}
             
         <h3 class="text-center m-auto">Expense List</h3> 
             <div class="d-flex justify-content-end my-4 title2">    
@@ -127,36 +127,39 @@
             <table class="table mx-auto" style="word-break: break-word;">
                 <thead class="table-secondary">
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">SR. No.</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Mode</th>
+                    {% comment %} <th scope="col">Mode</th> {% endcomment %}
                     <th scope="col">Rate</th>
                     <th scope="col">Total Distance</th>
                     <th scope="col">From</th>
                     <th scope="col">To</th>
                     <th scope="col">Total Amount</th>
                     <th scope="col">Remarks</th>
-                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
-                    {% for expense in expenses %}
+                    {{ex.id}}
+                    {% for a in ex %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td class="">{{ expense.date }}</td>
-                        <td class="">{{ expense.modes }}</td>
-                        <td class="">{{ expense.rate }}</td>
-                        <td class="">{{ expense.total_km }}</td>
-                        <td class=""></td>
-                        <td class=""></td>
-                        <td class="">{{ expense.total_amount }}</td>
-                        <td class="">{{ expense.remarks }}</td>
+                        <td class="">{{ a.date }}</td>
+                        {% comment %} <td class="">{{ a.modes }}</td> {% endcomment %}
+                        <td class="">{{ a.rate }} Rs.</td>
+                        <td class="">{{ a.distance|floatformat:2 }} Km</td>
+                        <td class="">{{ a.from }}</td>
+                        <td class="">{{ a.to }}</td>
+                        <td class="">{{ a.total|floatformat:2 }} Rs.</td>
+                        <td class="">{{ a.remarks }}</td>
+                        {% comment %} <td class="">{{ a.id }}</td> {% endcomment %}
+                        {% if a.type == 'expense' %}
                         <td class="">
-                            <form method="post" action="{% url 'delete-expense' expense.id %}">
+                            <form method="post" action="{% url 'delete-expense' a.id %}">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger btn-sm">x</button>
                             </form>
                         </td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -198,6 +201,5 @@
 
 </script>
 {% endblock %}
-</body>
 
 

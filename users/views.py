@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
@@ -5,12 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.contrib import messages
+from .utils import get_distance
 from django.views import View
 from .models import * 
 from .forms import *
 import folium
+import pytz
 import csv
-from .utils import get_distance
 
 def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -101,13 +103,16 @@ def profile(request):
             return redirect(to='users-profile')
         elif user_form.is_valid():
             print(user_form , " === user form === ")
+            user_form.save()
         elif profile_form.is_valid():
+            profile_form.save()
             print(profile_form , "=== profile form ===")
     else:
-        user_form = UpdateUserForm(instance=request.user)
-        profile_instance = Profile.objects.get(user=request.user)
-        print ('=== Profile Instance ===' , profile_instance.phone )
-        print ('=== User Instance ===' , request.user)
+        user_obj = User.objects.get(username = request.user.username)
+        profile_instance = Profile.objects.get(user=user_obj)
+        print ('=== Profile Instance ===' , profile_instance )
+        print ('=== User Instance ===' , user_obj)
+        user_form = UpdateUserForm(instance=user_obj)
         profile_form = UpdateProfileForm(instance=profile_instance)
 
     return render(request, 'users/profile.html', {'user_form': user_form, 'profile_form': profile_form})
@@ -133,6 +138,7 @@ def expense(request):
             print(request.FILES)
             messages.success(request, 'Expense added successfully.')
             return redirect('/expense/')
+        
     expenses = Expense.objects.filter(user_id=user)
     coordinates = Coordinate.objects.filter(user_id=request.user).order_by('date_time')
     head = True
@@ -141,35 +147,44 @@ def expense(request):
     prev_long = 0
     sum = 0
     e = []
+    print(coordinates)
     for c in coordinates:
+        print(c.date_time)
         if head:
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
-            dist = 0 
+            distance = 0 
             head = False
-            e.append({'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product , 'distance':dist})
+            obj = {'date': c.date_time, 'from': 'Home', 'to' : c.hospital.hospital_name, 'total': 0 ,'rate' : 0 , 'remarks' : c.product , 'distance':distance , 'type' : 'location' ,'id':c.id }
+            print(obj)
+            e.append(obj)
         else:
-            dist = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
-            sum += dist
-            prate = Profile.objects.get(user = request.user).rate
-            rate = float( prate * dist)
-            e.append({'date': c.date_time, 'from': prev_name, 'distance':dist,'to' : c.hospital.hospital_name, 'total': sum ,'rate' : rate , 'remarks' : c.product})
+            distance = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
+            sum += distance
+            prate = Profile.objects.get(user = request.user).rate or 3.5
+            rate = float(prate * distance)
+            obj = {'date': c.date_time, 'from': prev_name, 'distance':distance,'to' : c.hospital.hospital_name, 'total': rate ,'rate' : prate , 'remarks' : c.product , 'type' : 'location' ,'id':c.id  }
+            print(obj)
+            e.append(obj)
             prev_name = c.hospital
             prev_lat = c.latitude
             prev_long = c.longitude
+
     print(sum)
     for en in expenses:
-        e.append({'date': en.date, 'from': 'None', 'to' : 'None', 'total': en.total_amount ,'rate' : en.total_amount , 'remarks' : en.remarks , 'distance':dist})
-    e = e.sort(key=lambda x: x['date'])
-    return render(request, 'users/expense.html',{'form':form, 'expenses':expenses , 'e':e})
+        e.append({'date': datetime.combine(en.date, datetime.min.time()).replace(tzinfo=pytz.UTC), 'from': 'None', 'to' : 'None', 'total': en.total_amount ,'rate' : 0 , 'remarks' : en.remarks , 'distance':distance , 'type' : 'expense' , 'id' : en.id })
+    # print("unsorted e" , e)
+    e.sort(key=lambda x: x['date'])
+    # print("sorted e" , e)
+    return render(request, 'users/expense.html',context = {'form':form, 'ex':e})
 
 
 def delete_expense(request, expense_id):
-    expense = get_object_or_404(Expense, id=expense_id)
+    a = get_object_or_404(Expense, id=expense_id)
 
-    if expense.user_id == request.user:
-        expense.delete()
+    if a.user_id == request.user:
+        a.delete()
         messages.warning(request, 'Expense deleted successfully.')
     else:
         messages.error(request, 'You do not have permission to delete this expense.')
@@ -197,7 +212,6 @@ def download_expenses_csv(request):
             prev_lat = c.latitude
             prev_long = c.longitude
 
-        
     print(sum)     
             
     expenses = Expense.objects.filter(user_id=request.user)
@@ -297,7 +311,6 @@ def get_person_hospital(request):
         for i in persons:
             content += '<option value="'+str(i.name)+'">'+str(i.name)+'</option>'
         return JsonResponse({'content': content})
-        
     
 
 def maps(request):

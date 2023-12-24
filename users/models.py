@@ -25,7 +25,7 @@ class Expense(models.Model):
     image = models.ImageField(upload_to='Expenses', blank=True, null=True)
 
     def __str__(self):
-        return self.user_id.username + "'s expense at " + str(self.date)
+        return self.user_id.username + " s expense at " + str(self.date)
     
 
 class Person(models.Model):
@@ -75,7 +75,8 @@ class Coordinate(models.Model):
     outcome = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return 'Coordinates of ' + str(self.user_id) + 'at' + str(self.date_time)
+        username_str = str(self.user_id.username) if self.user_id else 'Unknown User'
+        return f'Coordinates of {username_str}'
 
 
 class ManagerProfile(models.Model):

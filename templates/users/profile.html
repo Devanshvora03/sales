@@ -61,7 +61,7 @@
                     <div class="form-group1">
                         <a href="{% url 'password_change' %}">Change Password</a>
                     </div>           
-                </form>
+                
             <div class="">
                 <div class="form-row">
                     <div class="col-m-5">
@@ -74,6 +74,8 @@
                 </div>
             </div>
         </div>
+    </form>
+    
     </div>
     </div>
 </div>
@@ -83,32 +85,34 @@
 {% block js %}
 <script>
     $(document).ready(function(){
-        $("#profileForm").submit(function(e){
+        $('form').on('submit' , function(e){
             e.preventDefault();
-            var formData = new FormData(this);
+            var formData = $(this).serialize();
+            console.log(formData)
             $.ajax({
                 url: "{% url 'users-profile' %}",
                 type: "POST",
                 data: formData,
-                processData: false,
-                contentType: false,
                 success: function(data){
-                    $("#form_errors").html("");
-                    $("#form_errors").hide();
-                    $("#form_success").html(data.message);
-                    $("#form_success").show();
+                    //$("#form_errors").html("");
+                    //$("#form_errors").hide();
+                    //$("#form_success").html(data.message);
+                    //$("#form_success").show();
+                    alert('Parth ne kr dikhaya ')
                 },
                 error: function(data){
-                    $("#form_success").html("");
-                    $("#form_success").hide();
-                    $("#form_errors").html("");
-                    $("#form_errors").show();
-                    $.each(data.responseJSON, function(key, value){
-                        $("#form_errors").append("<strong>"+value+"</strong>");
-                    });
+                    //$("#form_success").html("");
+                    //$("#form_success").hide();
+                    //$("#form_errors").html("");
+                    //$("#form_errors").show();
+                    //$.each(data.responseJSON, function(key, value){
+                    //    $("#form_errors").append("<strong>"+value+"</strong>");
+                    //});
+                    alert('error')
                 }
             });
         });
     });
+
 </script>
 {% endblock js %}
