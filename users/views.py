@@ -1,4 +1,3 @@
-from datetime import datetime
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordChangeView
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.messages.views import SuccessMessageMixin
@@ -8,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from .utils import get_distance
 from django.views import View
+from datetime import datetime
 from .models import *
 from .forms import *
 import folium
@@ -310,12 +310,53 @@ def get_person_hospital(request):
         return JsonResponse({'content': content})
 
 
+# def maps(request):
+#     if request.method == 'POST':
+#         start = request.POST.get('start')
+#         end = request.POST.get('end')
+#         coordinates = Coordinate.objects.filter(user_id=request.user)
+#         coordinate = coordinate.filter(date_time__range=(start, end))
+#         fp = coordinates.first()
+#         coordinate_list = []
+#         mapObject = folium.Map(location=[fp.latitude, fp.longitude])
+#         for i in coordinates:
+#             coordinate_list.append((i.latitude, i.longitude))
+#             folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
+#             folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
+#         folium.LayerControl().add_to(mapObject)
+#         mapContext = mapObject._repr_html_()
+#         context = {
+#             'maps': mapContext,
+#         }
+#         return JsonResponse({'message': 'Coordinates updated successfully', 'context': context})
+
+#     coordinates = Coordinate.objects.filter(user_id=request.user)
+#     fp = coordinates.first()
+#     coordinate_list = []
+#     mapObject = folium.Map(location=[fp.latitude, fp.longitude])
+#     for i in coordinates:
+#         coordinate_list.append((i.latitude, i.longitude))
+#         folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
+#         folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
+#     folium.LayerControl().add_to(mapObject)
+#     mapContext = mapObject._repr_html_()
+#     context = {
+#         'maps': mapContext,
+#     }
+#     return render(request, 'users/maps.html', context)
+
+
 def maps(request):
+    coordinates = Coordinate.objects.filter(user_id=request.user)
+
     if request.method == 'POST':
         start = request.POST.get('start')
         end = request.POST.get('end')
-        coordinates = Coordinate.objects.filter(user_id=request.user)
-        coordinate = coordinate.filter(date_time__range=(start, end))
+        coordinates = coordinates.filter(date_time__range=(start, end))
+
+    if not coordinates.exists(): 
+        mapObject = folium.Map(location=[20.5937, 78.9629], zoom_start=4)
+    else:
         fp = coordinates.first()
         coordinate_list = []
         mapObject = folium.Map(location=[fp.latitude, fp.longitude])
@@ -323,24 +364,14 @@ def maps(request):
             coordinate_list.append((i.latitude, i.longitude))
             folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
             folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
-        folium.LayerControl().add_to(mapObject)
-        mapContext = mapObject._repr_html_()
-        context = {
-            'maps': mapContext,
-        }
-        return JsonResponse({'message': 'Coordinates updated successfully', 'context': context})
-
-    coordinates = Coordinate.objects.filter(user_id=request.user)
-    fp = coordinates.first()
-    coordinate_list = []
-    mapObject = folium.Map(location=[fp.latitude, fp.longitude])
-    for i in coordinates:
-        coordinate_list.append((i.latitude, i.longitude))
-        folium.Marker(location=[i.latitude, i.longitude]).add_to(mapObject)
-        folium.PolyLine(coordinate_list, color="red", weight=2.5, opacity=1).add_to(mapObject)
+            
     folium.LayerControl().add_to(mapObject)
     mapContext = mapObject._repr_html_()
     context = {
         'maps': mapContext,
     }
-    return render(request, 'users/maps.html', context)
+
+    if request.method == 'POST':
+        return JsonResponse({'message': 'Coordinates updated successfully', 'context': context})
+    else:
+        return render(request, 'users/maps.html', context)
