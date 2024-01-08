@@ -74,8 +74,9 @@ class Coordinate(models.Model):
     outcome = models.TextField(blank=True, null=True)
 
     def __str__(self):
+        date = self.date_time
         username_str = str(self.user_id.username) if self.user_id else 'Unknown User'
-        return f'Coordinates of {username_str}'
+        return f'Coordinates of {username_str} at {date}'
 
 
 class ManagerProfile(models.Model):
