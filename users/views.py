@@ -213,7 +213,7 @@ def download_expenses_csv(request):
 
         else:
             distance = get_distance(prev_lat, prev_long, c.latitude, c.longitude)
-            sum += distance
+            sum = sum + distance
             prate = Profile.objects.get(user=request.user).rate or 3.5
             rate = float(prate * distance)
             obj = {'date': c.date_time, 'from': prev_name, 'distance': distance, 'to': c.hospital.hospital_name,

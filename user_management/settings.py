@@ -175,6 +175,12 @@ STATICFILES_DIRS = [
     BASE_DIR,"static"
 ]
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # or your SMTP server
+EMAIL_PORT = 587  # or your SMTP port
+EMAIL_USE_TLS = True  # or EMAIL_USE_SSL = True if using SSL
+EMAIL_HOST_USER = 'voradevansh1321@gmail.com'  # Update with your email
+EMAIL_HOST_PASSWORD = 'ufgg zojf oufa aygo'  # Update with your password
 
 # JAZZMIN_SETTINGS = {
 #     # title of the window (Will default to current_admin_site.site_title if absent or None)
