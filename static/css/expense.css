@@ -41,17 +41,17 @@
   white-space: nowrap;
 }
 
-.content2{
+/* .content2{
   width: 1400px;  
-  /* height: 1400px;   */
-}
+  /* height: 1400px;   *
+} */
 
-.content2 div {
+/* .content2 div {
   display: inline-block;
   width: 200px;
   height: 200px;
   margin-right: 10px;
-}
+} */
 
 /* body {
   padding: 0.2em 2em;

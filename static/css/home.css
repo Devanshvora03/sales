@@ -1,5 +1,6 @@
 /* {% load static %} */
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Scada:ital@1&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Scada:ital@1&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Raleway:wght@500&family=Scada:ital@1&display=swap');
 @media screen and (max-width:1320px){
     .dflex1{
             display: inline!important;
@@ -22,13 +23,14 @@ body{
     width: 30%;
 }
 .content{
-    background-image: url("../img/home.png");
-    background-size: cover;
-    height: 92.5vh;
+    /* background-image: url("../img/home.png"); */
+    background-color: #ECF8FF;;
+    /* background-size: cover; */
+    height: 100vh;
     overflow-x: hidden;
     position: relative !important;
 }
-.content::before {
+/* .content::before {
     content: "";
     display: block;
     position: absolute;
@@ -43,24 +45,72 @@ body{
     position: absolute;
     opacity: 1;
     z-index: 2;
+} */
+.Montserrat{
+    font-family: 'Montserrat', sans-serif;
+    /* color: #060E40; */
 }
-.raleway{
-    font-family: 'Raleway', sans-serif;
-    color: #ffffff;
-    /* font-family: 'Scada', sans-serif; */
+
+.mt-5-custom{
+    margin-top: 5rem;
+}
+
+.mb-8{
+    margin-bottom: 8rem;
+}
+
+.dark-blue{
+    color: #060E40;
+}
+.sky-blue{
+    color: #70B3DA;
 }
 
 .head1{
-    font-size: 400%;
-    margin-top: 8rem;
+    font-size: 200%;
 }
 .head2{
-    font-size: 200%;
-    margin-bottom: 7rem;
+    font-size: 400%;
 }
 
 .width-100vw{
     width: 100vw;
+}
+
+.home_image{
+    width: 400px;
+/* height: 500px; */
+}
+
+.small_img{
+    width: 176px;
+}
+
+.box_margin{
+    width: 1536px;
+    height: 396px;
+    flex-shrink: 0;
+}
+
+.box_size1{
+    width: 384px;
+}
+
+.box_margin .mx-2 p{
+    color: #060E40;
+text-align: center;
+font-family: Inter;
+font-size: 30px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+} 
+
+.line1{
+    /* border-right: 1px solid#000; */
+    background: #22668D;
+    width: 1px;
+    height: 396px;
 }
 
 .box-1{
